@@ -1,9 +1,8 @@
 ##################################################
-# This is the main/entry-point file for the 
-# sample application for your project
+# This the home page for CoConnect
 ##################################################
 
-# Set up basic logging infrastructure
+
 import logging
 logging.basicConfig(format='%(filename)s:%(lineno)s:%(levelname)s -- %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)

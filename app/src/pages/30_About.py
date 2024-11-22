@@ -8,10 +8,8 @@ st.write("# About this App")
 
 st.markdown (
     """
-    This is a demo app for CS 3200 Course Project.  
-
-    The goal of this demo is to provide information on the tech stack 
-    being used as well as demo some of the features of the various platforms. 
+    This is CO-Connect. 
+    A Facebook like app for CO-OPs. 
 
     Stay tuned for more information and features to come!
     """
