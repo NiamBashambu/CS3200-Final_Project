@@ -107,64 +107,206 @@ CREATE TABLE Employer (
 );
 
 
+DELIMITER //
+CREATE PROCEDURE PopulateCoOpAdvisor()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 50 DO
+        INSERT INTO CoOpAdvisor (CoopAdvisorID, Name, Department, Field)
+        VALUES (i, CONCAT('Dr. Advisor ', i),
+            CASE
+                WHEN i % 3 = 0 THEN 'Computer Science'
+                WHEN i % 3 = 1 THEN 'Mechanical Engineering'
+                ELSE 'Electrical Engineering'
+            END,
+            CASE
+                WHEN i % 3 = 0 THEN 'Artificial Intelligence'
+                WHEN i % 3 = 1 THEN 'Robotics'
+                ELSE 'Power Systems'
+            END);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateCoOpAdvisor();
 
--- Insert sample data into CoOpAdvisor table
-INSERT INTO CoOpAdvisor (CoopAdvisorID, Name, Department, Field)
-VALUES
-(1, 'Dr. Emily Smith', 'Computer Science', 'Artificial Intelligence'),
-(2, 'Dr. John Doe', 'Mechanical Engineering', 'Robotics');
+DELIMITER //
+CREATE PROCEDURE PopulateStudents()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO Student (StudentId, Name, Email, Phone, YOG, Major, Advisor)
+        VALUES (i, CONCAT('Student ', i), CONCAT('student', i, '@example.com'),
+            CONCAT('123-', LPAD(i MOD 1000, 3, '0'), '-', LPAD((i * 17) MOD 10000, 4, '0')),
+            2024 + (i MOD 3),
+            CASE
+                WHEN i % 3 = 0 THEN 'Computer Science'
+                WHEN i % 3 = 1 THEN 'Mechanical Engineering'
+                ELSE 'Electrical Engineering'
+            END,
+            (i MOD 50) + 1);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateStudents();
 
--- Insert sample data into Student table
-INSERT INTO Student (StudentId, Name, Email, Phone, YOG, Major, Advisor)
-VALUES
-(101, 'Alice Johnson', 'alice.johnson@example.com', '123-456-7890', 2025, 'Computer Science', 1),
-(102, 'Bob Brown', 'bob.brown@example.com', '987-654-3210', 2024, 'Mechanical Engineering', 2);
 
--- Insert sample data into Resume table
-INSERT INTO Resume (ResumeId, StudentId, Content, LastUpdated)
-VALUES
-(201, 101, 'Alice\'s resume content...', '2024-10-15'),
-(202, 102, 'Bob\'s resume content...', '2024-09-10');
+DELIMITER //
+CREATE PROCEDURE PopulateResumes()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO Resume (ResumeId, StudentId, Content, LastUpdated)
+        VALUES (i, i, CONCAT('Resume content for Student ', i),
+            DATE_SUB(CURDATE(), INTERVAL (i MOD 100) DAY));
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateResumes();
 
--- Insert sample data into StudentSearching table
-INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus)
-VALUES
-(101, 201, 'Seeking Internship'),
-(102, 202, 'Seeking Full-Time');
 
--- Insert sample data into StudentExploringFields table
-INSERT INTO StudentExploringFields (StudentId, Interest)
-VALUES
-(101, 'Machine Learning'),
-(102, 'CAD Design');
+DELIMITER //
+CREATE PROCEDURE PopulateStudentSearching()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus)
+        VALUES (i, i,
+            CASE
+                WHEN i % 2 = 0 THEN 'Seeking Internship'
+                ELSE 'Seeking Full-Time'
+            END);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateStudentSearching();
 
--- Insert sample data into Posts table
-INSERT INTO Posts (PostId, StudentId, Content, PostDate, Category)
-VALUES
-(301, 101, 'Excited to start applying for AI internships!', '2024-11-01', 'Career Updates'),
-(302, 102, 'Looking for robotics opportunities!', '2024-11-02', 'Job Hunt');
 
--- Insert sample data into Company table
-INSERT INTO Company (CompanyId, Name, State, City)
-VALUES
-(401, 'Tech Innovators', 'California', 'San Francisco'),
-(402, 'Robotics World', 'New York', 'New York City');
+DELIMITER //
+CREATE PROCEDURE PopulateStudentExploringFields()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO StudentExploringFields (StudentId, Interest)
+        VALUES (i,
+            CASE
+                WHEN i % 4 = 0 THEN 'Machine Learning'
+                WHEN i % 4 = 1 THEN 'CAD Design'
+                WHEN i % 4 = 2 THEN 'Networking'
+                ELSE 'Embedded Systems'
+            END);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateStudentExploringFields();
 
--- Insert sample data into JobListing table
-INSERT INTO JobListing (JobId, Position, CompanyId, Department, Description)
-VALUES
-(501, 'AI Engineer Intern', 401, 'AI Development', 'Internship for AI/ML projects'),
-(502, 'Robotics Engineer', 402, 'Engineering', 'Full-time role in robotics team');
 
--- Insert sample data into Notification table
-INSERT INTO Notification (NotifId, PostId, JobId, StudentId, TimeStamp, Content)
-VALUES
-(601, 301, 501, 101, '2024-11-03 10:00:00', 'Check out this AI internship opportunity!'),
-(602, 302, 502, 102, '2024-11-04 12:30:00', 'Robotics role you might like!');
+DELIMITER //
+CREATE PROCEDURE PopulatePosts()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO Posts (PostId, StudentId, Content, PostDate, Category)
+        VALUES (i, i, CONCAT('Post content for Student ', i),
+            DATE_SUB(CURDATE(), INTERVAL (i MOD 30) DAY),
+            CASE
+                WHEN i % 2 = 0 THEN 'Career Updates'
+                ELSE 'Job Hunt'
+            END);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulatePosts();
 
--- Insert sample data into Employer table
-INSERT INTO Employer (EmployerId, Name, Email, Phone, CompanyId)
-VALUES
-(701, 'Sarah Green', 'sarah.green@techinnovators.com', '123-789-4561', 401),
-(702, 'Mark Wilson', 'mark.wilson@roboticsworld.com', '321-654-9872', 402);
 
+DELIMITER //
+CREATE PROCEDURE PopulateCompanies()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 100 DO
+        INSERT INTO Company (CompanyId, Name, State, City)
+        VALUES (i, CONCAT('Company ', i),
+            CASE
+                WHEN i % 3 = 0 THEN 'California'
+                WHEN i % 3 = 1 THEN 'New York'
+                ELSE 'Texas'
+            END,
+            CASE
+                WHEN i % 3 = 0 THEN 'San Francisco'
+                WHEN i % 3 = 1 THEN 'New York City'
+                ELSE 'Austin'
+            END);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateCompanies();
+
+
+DELIMITER //
+CREATE PROCEDURE PopulateJobListings()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO JobListing (JobId, Position, CompanyId, Department, Description)
+        VALUES (i, CONCAT('Position ', i),
+            (i MOD 100) + 1,
+            CASE
+                WHEN i % 3 = 0 THEN 'AI Development'
+                WHEN i % 3 = 1 THEN 'Engineering'
+                ELSE 'Marketing'
+            END,
+            CONCAT('Description for Position ', i));
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateJobListings();
+
+
+DELIMITER //
+CREATE PROCEDURE PopulateNotifications()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO Notification (NotifId, PostId, JobId, StudentId, TimeStamp, Content)
+        VALUES (i, i, (i MOD 500) + 1, i,
+            DATE_ADD('2024-01-01 00:00:00', INTERVAL i HOUR),
+            CONCAT('Notification content for Post ', i));
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateNotifications();
+
+
+DELIMITER //
+CREATE PROCEDURE PopulateEmployers()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 100 DO
+        INSERT INTO Employer (EmployerId, Name, Email, Phone, CompanyId)
+        VALUES (i, CONCAT('Employer ', i),
+            CONCAT('employer', i, '@company', i, '.com'),
+            CONCAT('987-', LPAD(i MOD 1000, 3, '0'), '-', LPAD((i * 19) MOD 10000, 4, '0')),
+            (i MOD 100) + 1);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulateEmployers();
