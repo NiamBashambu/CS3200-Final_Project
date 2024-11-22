@@ -16,7 +16,7 @@ from modules.nav import SideBarLinks
 SideBarLinks()
 
 # Title for the Streamlit app
-st.title('Facebook-like Post Feed')
+st.title('Post Feed')
 st.write('')
 st.write('')
 

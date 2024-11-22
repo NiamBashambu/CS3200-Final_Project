@@ -31,6 +31,7 @@ def get_all_posts():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+    print(response)
 
 # ------------------------------------------------------------
 # Create a new post
