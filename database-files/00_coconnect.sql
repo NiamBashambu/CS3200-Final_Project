@@ -267,21 +267,27 @@ CREATE PROCEDURE PopulateJobListings()
 BEGIN
     DECLARE i INT DEFAULT 1;
     WHILE i <= 500 DO
-        INSERT INTO JobListing (JobId, Position, CompanyId, Department, Description)
-        VALUES (i, CONCAT('Position ', i),
+        INSERT INTO JobListing (JobId, Position, CompanyId, Department, Description, Location, PostDate)
+        VALUES (
+            i, 
+            CONCAT('Position ', i),
             (i MOD 100) + 1,
             CASE
                 WHEN i % 3 = 0 THEN 'AI Development'
                 WHEN i % 3 = 1 THEN 'Engineering'
                 ELSE 'Marketing'
             END,
-            CONCAT('Description for Position ', i));
+            CONCAT('Description for Position ', i),
+            CONCAT('Location ', (i MOD 10) + 1), -- Example: Location 1 to Location 10
+            DATE_ADD(CURDATE(), INTERVAL (i MOD 30) DAY) -- Example: Post dates spread over 30 days
+        );
         SET i = i + 1;
     END WHILE;
 END;
 //
 DELIMITER ;
 CALL PopulateJobListings();
+
 
 
 DELIMITER //
