@@ -74,7 +74,7 @@ st.write("")
 st.write("### 📰 Posts Feed")
 
 # Fetch Posts Automatically from the API
-response = requests.get(BASE_URL)
+response = requests.get(f'{BASE_URL}')
 
 if response.status_code == 200:
     posts = response  

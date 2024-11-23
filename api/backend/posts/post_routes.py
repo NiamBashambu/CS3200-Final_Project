@@ -26,7 +26,7 @@ def get_all_posts():
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-    
+
     
     response = make_response(jsonify(theData))
     response.status_code = 200
