@@ -169,6 +169,24 @@ END;
 DELIMITER ;
 CALL PopulateResumes();
 
+DELIMITER //
+CREATE PROCEDURE PopulatePosts()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    WHILE i <= 500 DO
+        INSERT INTO Posts (PostId, StudentId, Content, PostDate, Category)
+        VALUES (i, i, CONCAT('Post content for Student ', i),
+            DATE_SUB(CURDATE(), INTERVAL (i MOD 30) DAY),
+            CASE
+                WHEN i % 2 = 0 THEN 'Career Updates'
+                ELSE 'Job Hunt'
+            END);
+        SET i = i + 1;
+    END WHILE;
+END;
+//
+DELIMITER ;
+CALL PopulatePosts();
 
 DELIMITER //
 CREATE PROCEDURE PopulateStudentSearching()
@@ -293,21 +311,3 @@ DELIMITER ;
 CALL PopulateEmployers();
 
 
-DELIMITER //
-CREATE PROCEDURE PopulatePosts()
-BEGIN
-    DECLARE i INT DEFAULT 1;
-    WHILE i <= 500 DO
-        INSERT INTO Posts (PostId, StudentId, Content, PostDate, Category)
-        VALUES (i, i, CONCAT('Post content for Student ', i),
-            DATE_SUB(CURDATE(), INTERVAL (i MOD 30) DAY),
-            CASE
-                WHEN i % 2 = 0 THEN 'Career Updates'
-                ELSE 'Job Hunt'
-            END);
-        SET i = i + 1;
-    END WHILE;
-END;
-//
-DELIMITER ;
-CALL PopulatePosts();
