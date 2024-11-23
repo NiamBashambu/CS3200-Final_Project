@@ -74,6 +74,7 @@ CREATE TABLE Company (
     State VARCHAR(50),
     City VARCHAR(50)
 );
+
 -- Create the Job Listing table
 CREATE TABLE JobListing (
     JobId INT PRIMARY KEY,
