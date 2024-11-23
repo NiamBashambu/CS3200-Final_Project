@@ -82,6 +82,7 @@ CREATE TABLE JobListing (
     Department VARCHAR(50),
     Description TEXT,
     Location VARCHAR(100),
+    PostDate DATE,
     FOREIGN KEY (CompanyId) REFERENCES Company(CompanyId)
 );
 
