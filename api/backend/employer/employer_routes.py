@@ -13,11 +13,11 @@ from backend.db_connection import db
 
 
 # Create a new Blueprint object for posts
-posts = Blueprint('employer', __name__)
+employer = Blueprint('employer', __name__)
 
 # ------------------------------------------------------------
 # Get all employers
-@posts.route('/employer', methods=['GET'])
+@employer.route('/employer', methods=['GET'])
 def get_all_employers():
     query = '''
         SELECT EmployerId, Name, Email, Phone, CompanyId 
