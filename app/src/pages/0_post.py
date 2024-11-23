@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-BASE_URL = "http://web-api:4000/posts"
+BASE_URL = "http://web-api:4000/p/posts"
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="Post Feed", page_icon="💬")
@@ -74,20 +74,19 @@ st.write("")
 st.write("### 📰 Posts Feed")
 
 # Fetch Posts Automatically from the API
-response = requests.get(f'{BASE_URL}')
+posts = requests.get(BASE_URL)
 
-if response.status_code == 200:
-    posts = response  
-    if posts:
-        for post in posts:
-            post_id = post.get("PostId")
-            student_id = post.get("StudentId")
-            content = post.get("Content")
-            post_date = post.get("PostDate")
-            category = post.get("Category")
+
+if posts:
+    for post in posts:
+        post_id = post.get("PostId")
+        student_id = post.get("StudentId")
+        content = post.get("Content")
+        post_date = post.get("PostDate")
+        category = post.get("Category")
 
             
-            with st.container():
+        with st.container():
                 st.markdown('<div class="post-container">', unsafe_allow_html=True)
                 # Post Header: Student Info and Post Category
                 st.markdown(
@@ -124,10 +123,9 @@ if response.status_code == 200:
                 if st.button("💬 Add a Comment", key=f"comment_{post_id}"):
                     st.text_input("Write a comment...", key=f"comment_input_{post_id}")
                 st.markdown("</div>", unsafe_allow_html=True)
-    else:
-        st.write("No posts found.")
 else:
-    st.error("Failed to fetch posts. Please check your API.")
+        st.write("No posts found.")
+
 
 # Spacing between sections
 st.write("")
