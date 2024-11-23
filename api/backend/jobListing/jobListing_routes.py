@@ -89,11 +89,13 @@ def get_jobListing_position(position):
     return response
 
 # ------------------------------------------------------------
-# Get the email of the student who made a post
-@jobListing.route('/posts/<int:studentId>/<email>', methods=['GET'])
-def get_student_email(studentId, email):
+# Get the description of a job by jobId
+@jobListing.route('/jobListing/<int:jobId>/<description>', methods=['GET'])
+def get_job_description(jobId):
     query = f'''
-        SELECT Email FROM Student WHERE StudentId = {studentId}
+        SELECT Description 
+        FROM JobListing 
+        WHERE JobId = {jobId}
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -104,11 +106,30 @@ def get_student_email(studentId, email):
     return response
 
 # ------------------------------------------------------------
-# Get the date a specific post was made
-@jobListing.route('/posts/<int:postId>/<PostDate>', methods=['GET'])
-def get_post_date(postId, PostDate):
+# Gets job listings of a specific location
+@jobListing.route('/jobListing/<location>', methods=['GET'])
+def get_job_location(location):
     query = f'''
-        SELECT PostDate FROM Posts WHERE PostId = {postId}
+        SELECT JobId, Position, CompanyId, Department, Description, Location
+        FROM JobListing
+        WHERE Location = {location}
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchone()
+    
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+# ------------------------------------------------------------
+# Gets job listings that have been recently posted
+@jobListing.route('/jobListing/<postDate>', methods=['GET'])
+def get_job_date(location):
+    query = f'''
+        SELECT JobId, Position, CompanyId, Department, Description, Location
+        FROM JobListing
+        ORDER BY PostDate
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
