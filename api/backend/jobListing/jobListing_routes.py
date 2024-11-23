@@ -13,7 +13,7 @@ from backend.db_connection import db
 
 
 # Create a new Blueprint object for posts
-jobListing = Blueprint('JobListing', __name__)
+jobListing = Blueprint('joblisting', __name__)
 
 # ------------------------------------------------------------
 # Get all job listings
