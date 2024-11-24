@@ -38,9 +38,8 @@ def get_student_information(studentId):
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    db.get_db().commit()
+    theData = cursor.fetchall()
     
-
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
