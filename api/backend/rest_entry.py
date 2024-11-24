@@ -6,6 +6,7 @@ from backend.posts.post_routes import posts
 from backend.employer.employer_routes import employer
 from backend.jobListing.jobListing_routes import jobListing
 from backend.resume.resume_routes import resume
+from backend.student.student_routes import student
 import os
 from dotenv import load_dotenv
 
@@ -45,6 +46,7 @@ def create_app():
     app.register_blueprint(employer, url_prefix = '/e')
     app.register_blueprint(jobListing, url_prefix = '/j')
     app.register_blueprint(resume,url_prefix = '/r')
+    app.register_blueprint(student, url_prefix = '/s')
 
     # Don't forget to return the app object
     return app
