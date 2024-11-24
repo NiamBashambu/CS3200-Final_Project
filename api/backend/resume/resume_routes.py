@@ -32,3 +32,21 @@ def get_all_resume():
     response.status_code = 200
     return response
     
+# ------------------------------------------------------------
+# Updates an existing resume by resumeId
+@resume.route('/resume/<int:resumeId>', methods=['PUT'])
+def update_resume(resumeId, updatedContent):
+    query = '''
+        UPDATE Resume
+        SET Content = updatedContent
+        WHERE ResumeId = resumeId
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+    
