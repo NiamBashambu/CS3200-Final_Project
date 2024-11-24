@@ -5,6 +5,7 @@ from backend.db_connection import db
 from backend.posts.post_routes import posts
 from backend.employer.employer_routes import employer
 from backend.jobListing.jobListing_routes import jobListing
+from backend.resume.resume_routes import resume
 import os
 from dotenv import load_dotenv
 
@@ -42,7 +43,8 @@ def create_app():
     app.logger.info('current_app(): registering blueprints with Flask app object.')   
     app.register_blueprint(posts,    url_prefix='/p')
     app.register_blueprint(employer, url_prefix = '/e')
-    app.register_blueprint(jobListing, url_preix = '/j')
+    app.register_blueprint(jobListing, url_prefix = '/j')
+    app.register_blueprint(resume,url_prefix = '/r')
 
     # Don't forget to return the app object
     return app
