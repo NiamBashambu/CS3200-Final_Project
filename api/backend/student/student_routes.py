@@ -26,3 +26,21 @@ def get_all_student():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+# ------------------------------------------------------------
+# Returns all information of a particular student
+@student.route('/student/<int:studentId>', methods=['GET'])
+def get_student_information(studentId):
+    query = '''
+        SELECT StudentId, Name, Email, Phone, YOG, Major, Advisor
+        FROM Student
+        WHERE StudentId = {studentId}
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    
+    
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
