@@ -37,7 +37,7 @@ def update_employment(studentId, status):
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    theData = cursor.fetchall()
+    db.get_db().commit()
     
     response = make_response("Employment status updated")
     response.status_code = 200
