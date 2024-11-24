@@ -33,7 +33,7 @@ def get_all_resume():
 # Updates an existing resume by resumeId
 @resume.route('/resume/<int:resumeId>', methods=['PUT'])
 def update_resume(resumeId, updatedContent):
-    query = '''
+    query = f'''
         UPDATE Resume
         SET Content = {updatedContent}
         WHERE ResumeId = {resumeId}
