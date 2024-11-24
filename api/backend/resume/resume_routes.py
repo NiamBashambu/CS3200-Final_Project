@@ -35,7 +35,7 @@ def get_all_resume():
 def update_resume(resumeId, updatedContent):
     query = '''
         UPDATE Resume
-        SET Content = updatedContent
+        SET Content = {updatedContent}
         WHERE ResumeId = {resumeId}
     '''
     cursor = db.get_db().cursor()
