@@ -1,3 +1,3 @@
 # `database-files` Folder
 
-TODO: Put some notes here about how this works.  include how to re-bootstrap the db. 
+This is our database, COConnect, which houses our sample data as well as the required tables needed for our 4 user personas. 
