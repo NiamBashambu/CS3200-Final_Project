@@ -13,7 +13,7 @@ studentSearching = Blueprint('studentSearching', __name__)
 # ------------------------------------------------------------
 # Gets employment status of every student
 @studentSearching.route('/studentSearching/<employmentStatus>', methods=['GET'])
-def get_all_student():
+def get_all_student_employment():
     query = '''
         SELECT EmployStatus
         FROM StudentSearching
@@ -21,8 +21,24 @@ def get_all_student():
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-
     
     response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+# ------------------------------------------------------------
+# Updates the employment status of a student
+@studentSearching.route('/resume/<int:studentId>/<employmentStatus>', methods=['PUT'])
+def update_employment(studentId, status):
+    query = f'''
+        UPDATE StudentSearching
+        SET EmployStatus = {status}
+        WHERE StudentId = {studentId}
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+    
+    response = make_response("Employment status updated")
     response.status_code = 200
     return response
