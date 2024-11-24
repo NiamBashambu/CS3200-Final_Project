@@ -40,6 +40,23 @@ def get_student_information(studentId):
     cursor.execute(query)
     db.get_db().commit()
     
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+# ------------------------------------------------------------
+# Gets the major of a particular student
+@student.route('/student/<int:studentId>/<major>', methods=['GET'])
+def get_student_major(studentId):
+    query = f'''
+        SELECT Major
+        FROM Student 
+        WHERE StudentId = {studentId}
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchone()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
