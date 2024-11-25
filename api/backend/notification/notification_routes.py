@@ -29,8 +29,8 @@ def create_notification():
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    db.get_db().commit()
+    theData = cursor.fetchall()
     
-    response = make_response("Notification created successfully")
+    response = make_response(jsonify(theData))
     response.status_code = 201
     return response

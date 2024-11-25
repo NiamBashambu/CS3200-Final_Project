@@ -82,7 +82,7 @@ def get_jobListing_position(position):
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    theData = cursor.fetchone()
+    theData = cursor.fetchall()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
@@ -99,7 +99,7 @@ def get_job_description(jobId):
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    theData = cursor.fetchone()
+    theData = cursor.fetchall()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
@@ -116,7 +116,7 @@ def get_job_location(location):
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    theData = cursor.fetchone()
+    theData = cursor.fetchall()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
@@ -133,7 +133,7 @@ def get_job_date(location):
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    theData = cursor.fetchone()
+    theData = cursor.fetchall()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
