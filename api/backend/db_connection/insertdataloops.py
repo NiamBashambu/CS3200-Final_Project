@@ -1,15 +1,12 @@
 import random
 import string
 from datetime import datetime, timedelta
-import mysql.connector
+from backend.db_connection import db
+from flask import Blueprint
 
-# Connect to MySQL database
-db = mysql.connector.connect(
-    host="localhost",
-    user="your_username",
-    password="your_password",
-    database="coconnect"
-)
+
+
+
 cursor = db.cursor()
 
 # Utility functions
