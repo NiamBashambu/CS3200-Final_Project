@@ -54,7 +54,7 @@ if st.button("Act as John Done, an Employer for a company",
     # finally, we ask streamlit to switch to another page, in this case, the 
     # landing page for this particular user type
     logger.info("Logging in as Employer")
-    st.switch_page('pages/')
+    st.switch_page('pages/1_studentprofile.py')
 
 if st.button('Act as Olivia Garcia, a student searching for a COOP', 
             type = 'primary', 
