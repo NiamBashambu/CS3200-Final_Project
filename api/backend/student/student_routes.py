@@ -31,7 +31,7 @@ def get_all_student():
 # Returns all information of a particular student
 @student.route('/student/<int:studentId>', methods=['GET'])
 def get_student_information(studentId):
-    query = '''
+    query = f'''
         SELECT StudentId, Name, Email, Phone, YOG, Major, Advisor
         FROM Student
         WHERE StudentId = {studentId}
