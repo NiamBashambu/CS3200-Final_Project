@@ -98,7 +98,8 @@ CREATE TABLE Notification (
     StudentId INT,
     TimeStamp DATETIME,
     Content TEXT,
-    FOREIGN KEY (PostId) REFERENCES Posts(PostId),
+    FOREIGN KEY (PostId) REFERENCES Posts(PostId)
+                          ON DELETE CASCADE,
     FOREIGN KEY (JobId) REFERENCES JobListing(JobId),
     FOREIGN KEY (StudentId) REFERENCES Student(StudentId)
 );
@@ -116,7 +117,7 @@ CREATE TABLE Employer (
     FOREIGN KEY (CompanyId) REFERENCES Company(CompanyId)
 );
 -- CoOp Advisors
-INSERT INTO CoOpAdvisor (Name, Department, Field) VALUES 
+INSERT INTO CoOpAdvisor (Name, Department, Field) VALUES
 ('Advisor_Alice', 'CS', 'AI'),
 ('Advisor_Bob', 'ECE', 'Robotics'),
 ('Advisor_Charlie', 'ME', 'Networking'),
@@ -165,7 +166,7 @@ INSERT INTO CoOpAdvisor (Name, Department, Field) VALUES
 ('Advisor_Tina', 'ECE', 'Robotics');
 
 -- Students
-INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor) VALUES 
+INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor) VALUES
 ('John Doe', 'johndoe@example.com', '+1234567890', 2024, 'CS', 1),
 ('Jane Smith', 'janesmith@example.com', '+9876543210', 2025, 'ECE', 2),
 ('Alex Johnson', 'alexjohnson@example.com', '+5555555555', 2026, 'ME', 3),
@@ -218,7 +219,7 @@ INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor) VALUES
 ('Charlotte White', 'charlottewhite@example.com', '+5151515151', 2025, 'ECE', 50);
 
 -- Resumes
-INSERT INTO Resume (StudentId, Content, LastUpdated) VALUES 
+INSERT INTO Resume (StudentId, Content, LastUpdated) VALUES
 (1, 'Resume content for John Doe', '2024-01-15'),
 (2, 'Resume content for Jane Smith', '2025-03-20'),
 (3, 'Resume content for Alex Johnson', '2026-06-10'),
@@ -271,7 +272,7 @@ INSERT INTO Resume (StudentId, Content, LastUpdated) VALUES
 (50, 'Resume content for Charlotte White', '2025-11-25');
 
 -- Student Searching
-INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus) VALUES 
+INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus) VALUES
 (1, 1, 'Searching'),
 (2, 2, 'Not Searching'),
 (3, 3, 'Employed'),
@@ -324,7 +325,7 @@ INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus) VALUES
 (50, 50, 'Not Searching');
 
 -- Student Exploring Fields
-INSERT INTO StudentExploringFields (StudentId, Interest) VALUES 
+INSERT INTO StudentExploringFields (StudentId, Interest) VALUES
 (1, 'AI'),
 (2, 'Robotics'),
 (3, 'Networking'),
@@ -377,7 +378,7 @@ INSERT INTO StudentExploringFields (StudentId, Interest) VALUES
 (50, 'Smart Manufacturing');
 
 -- Posts
-INSERT INTO Posts (StudentId, Content, PostDate, Category) VALUES 
+INSERT INTO Posts (StudentId, Content, PostDate, Category) VALUES
 (1, 'Announcement: Career fair this Friday!', '2024-02-10', 'Announcement'),
 (2, 'Job Opportunity: Full-time software engineer', '2025-04-15', 'Job Opportunity'),
 (3, 'Event: Join our coding bootcamp!', '2026-07-20', 'Event'),
@@ -429,7 +430,7 @@ INSERT INTO Posts (StudentId, Content, PostDate, Category) VALUES
 (49, 'Job Opportunity: Robotics programmer at RoboWorks', '2024-02-20', 'Job Opportunity'),
 (50, 'Event: Build your AI project this weekend', '2025-08-30', 'Event');
 -- Companies
-INSERT INTO Company (Name, State, City) VALUES 
+INSERT INTO Company (Name, State, City) VALUES
 ('TechCorp', 'CA', 'Los Angeles'),
 ('BioTech Inc.', 'NY', 'New York'),
 ('Code Labs', 'TX', 'Austin'),
@@ -481,7 +482,7 @@ INSERT INTO Company (Name, State, City) VALUES
 
 
 -- Job Listings
-INSERT INTO JobListing (Position, CompanyId, Department, Description, Location, PostDate) VALUES 
+INSERT INTO JobListing (Position, CompanyId, Department, Description, Location, PostDate) VALUES
 ('Software Engineer', 1, 'CS', 'Develop cutting-edge applications', 'Los Angeles', '2024-03-15'),
 ('Bioinformatics Analyst', 2, 'Bio', 'Analyze genetic data', 'New York', '2025-05-20'),
 ('Network Engineer', 3, 'ECE', 'Build network infrastructure', 'Austin', '2026-08-25'),
@@ -534,7 +535,7 @@ INSERT INTO JobListing (Position, CompanyId, Department, Description, Location, 
 ( 'DevOps Engineer', 50, 'DevOps', 'Manage deployment pipelines', 'Seattle', '2025-01-10');
 
 -- Notifications
-INSERT INTO Notification (PostId, JobId, StudentId, TimeStamp, Content) VALUES 
+INSERT INTO Notification (PostId, JobId, StudentId, TimeStamp, Content) VALUES
 (1, 1, 1, NOW(), 'New job listing for Software Engineer at TechCorp'),
 (2, 2, 2, NOW(), 'New research position available at BioTech Inc.'),
 (3, 3, 3, NOW(), 'Join our coding bootcamp in Austin!'),
@@ -587,7 +588,7 @@ INSERT INTO Notification (PostId, JobId, StudentId, TimeStamp, Content) VALUES
 (50, 50, 50, NOW(), 'DevOps engineer role at CloudTech');
 
 -- Employers
-INSERT INTO Employer (Name, Email, Phone, CompanyId) VALUES 
+INSERT INTO Employer (Name, Email, Phone, CompanyId) VALUES
 ('Sarah Johnson', 'sarahj@example.com', '+12125551212', 1),
 ('Mark Taylor', 'markt@example.com', '+14155551234', 2),
 ('Linda Green', 'lindag@example.com', '+16125551256', 3),
