@@ -5,7 +5,7 @@ from backend.db_connection import db
 
 
 def populate_database():
-    cursor = db.cursor()
+    cursor = db.connection.cursor()
 
     # Utility functions
     def random_string(length=8):

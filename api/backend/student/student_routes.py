@@ -21,9 +21,13 @@ def get_all_student():
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
+    current_app.logger.info(f'GET /student Result of query = {theData}')
+
 
     
     response = make_response(jsonify(theData))
+    
+
     response.status_code = 200
     return response
 
