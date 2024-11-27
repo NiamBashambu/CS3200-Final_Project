@@ -60,7 +60,7 @@ if st.button('Act as Olivia Garcia, a student searching for a COOP',
             use_container_width=True):
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'student_searching'
-    st.session_state['name'] = 'Oliva Garcia'
+    st.session_state['name'] = 'Olivia Garcia'
     st.switch_page('pages/0_post.py')
 
 if st.button('Act as Will Jones, a student exploring different fields', 

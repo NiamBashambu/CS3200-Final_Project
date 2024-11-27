@@ -39,17 +39,25 @@ def create_post():
     content = data['Content']
     post_date = data['PostDate']
     category = data['Category']
-    
-    query = f'''
-        INSERT INTO Posts (StudentId, Content, PostDate, Category)
-        VALUES ({student_id}, '{content}', '{post_date}', '{category}')
-    '''
+    student_name = data['Name']
+   
+    # Check if student already exists
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute('SELECT * FROM Student WHERE StudentId = %s', (student_id,))
+    student = cursor.fetchone()
+
+    if not student:
+    # Insert new student if they don't exist
+        cursor.execute('INSERT INTO Student (StudentId, Name) VALUES (%s, %s)', (student_id, student_name))
+        db.get_db().commit()
+
+# Insert the post
+    cursor.execute('''
+    INSERT INTO Posts (StudentId, Content, PostDate, Category)
+    VALUES (%s, %s, %s, %s)''', (student_id, content, post_date, category))
     db.get_db().commit()
-    
-    response = make_response("Post created successfully")
-    response.status_code = 201
+
+    response = make_response("Post created successfully", 201)
     return response
 
 # ------------------------------------------------------------
