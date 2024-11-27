@@ -53,16 +53,27 @@ def create_post():
     return response
 
 # ------------------------------------------------------------
-# Delete a post by PostId
 @posts.route('/posts/<int:postId>', methods=['DELETE'])
 def delete_post(postId):
-    query = f'''
-        DELETE FROM Posts WHERE PostId = {postId}
+    # Delete from Notification table first
+    delete_notification_query = f'''
+        DELETE FROM Notification WHERE PostId = {postId};
     '''
+    # Delete from Posts table second
+    delete_post_query = f'''
+        DELETE FROM Posts WHERE PostId = {postId};
+    '''
+
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+
+    # Execute the first query
+    cursor.execute(delete_notification_query)
     db.get_db().commit()
-    
+
+    # Execute the second query
+    cursor.execute(delete_post_query)
+    db.get_db().commit()
+
     response = make_response("Post deleted successfully")
     response.status_code = 200
     return response

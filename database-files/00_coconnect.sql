@@ -98,7 +98,8 @@ CREATE TABLE Notification (
     StudentId INT,
     TimeStamp DATETIME,
     Content TEXT,
-    FOREIGN KEY (PostId) REFERENCES Posts(PostId),
+    FOREIGN KEY (PostId) REFERENCES Posts(PostId)
+                          ON DELETE CASCADE,
     FOREIGN KEY (JobId) REFERENCES JobListing(JobId),
     FOREIGN KEY (StudentId) REFERENCES Student(StudentId)
 );
