@@ -18,6 +18,7 @@ def get_all_posts():
     query = '''
         SELECT PostId, s.StudentId, Content, PostDate, Category, s.Name 
         FROM Posts JOIN Student s
+        ON s.StudentID = Posts.StudentId
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
