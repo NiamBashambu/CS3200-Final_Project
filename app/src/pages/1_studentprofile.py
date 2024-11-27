@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 BASE_URL = "http://web-api:4000/s/student"
 
 # Set page layout to wide
-st.set_page_config(layout="wide", page_title="Student Profie", page_icon="👨‍🎓")
+st.set_page_config(layout="wide", page_title="Student Profile", page_icon="👨‍🎓")
 
 # Custom CSS
 st.markdown(
