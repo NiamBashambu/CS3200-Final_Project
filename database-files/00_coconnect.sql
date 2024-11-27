@@ -165,7 +165,6 @@ INSERT INTO CoOpAdvisor (Name, Department, Field) VALUES
 ('Advisor_Tina', 'ECE', 'Robotics');
 
 -- Students
-- Students
 INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor) VALUES 
 ('John Doe', 'johndoe@example.com', '+1234567890', 2024, 'CS', 1),
 ('Jane Smith', 'janesmith@example.com', '+9876543210', 2025, 'ECE', 2),
