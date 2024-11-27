@@ -1,7 +1,6 @@
 import logging
 import streamlit as st
 import requests
-import db
 from datetime import datetime
 from modules.nav import SideBarLinks
 
@@ -10,7 +9,7 @@ from modules.nav import SideBarLinks
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-BASE_URL = "http://web-api:4000/employer"
+BASE_URL = "http://web-api:4000/e/employer"
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="Employer Profile", page_icon="🧑‍💼")
@@ -66,19 +65,3 @@ st.markdown(
     unsafe_allow_html=True,
 )
 SideBarLinks()
-
-def fetch_profile(id):
-    query = 'SELECT * FROM employers WHERE EmployerId = :EmployerId'
-    profile = db.fetch_one(query, {'EmployerId': id})
-    return profile
-
-st.title('Employer Profile')
-
-st.write('')
-
-if st.session_state.get("authenticated"):
-    id = st.session_state.get('id', '1')
-
-    if id is not None:
-        profile = fetch_profile(id)
-        st.write(f"Hello, {profile['Name']}! 👋 What would you like to do today?")
