@@ -79,6 +79,28 @@ st.markdown(
     .add-post-btn:hover, .delete-post-btn:hover {
         background-color: #0056b3;
     }
+    .profile-icon {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 18px;
+    }
+    .profile-icon:hover {
+        background-color: #0056b3;
+    }
+    </style>
+    <a href="/2_individualprofile" target="_self">
+        <div class="profile-icon">👤</div>
+    </a>
     </style>
     """,
     unsafe_allow_html=True,
@@ -105,14 +127,46 @@ except ValueError as e:
 
 # Add a button to add a post
 with st.container():
-    st.markdown(
-        """
-        <div class="action-container">
-            <button class="add-post-btn" onclick="window.location.reload();">➕</button>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    # Toggle visibility of post creation form using session state
+    if "show_form" not in st.session_state:
+        st.session_state["show_form"] = False
+
+    def toggle_form():
+        st.session_state["show_form"] = not st.session_state["show_form"]
+
+# Plus button to toggle form visibility
+    if st.button("➕ Create Post", key="toggle_form"):
+        toggle_form()
+
+# Display the post creation form if the state is toggled
+    if st.session_state["show_form"]:
+        st.write("### ✍️ Create a New Post")
+        with st.form(key="create_post"):
+        # Automatically pre-fill the Student Name field with the logged-in user's name
+            student_name = st.session_state.get("name", "Guest")
+            student_id = st.text_input("Student ID", placeholder="Enter your Student ID")
+            content = st.text_area("Content", placeholder="What's on your mind?")
+            post_date = st.date_input("Post Date", value=datetime.now().date())
+            category = st.text_input("Category", placeholder="Enter a category (e.g., News, Updates)")
+        
+        # Automatically fill the student's name in the form
+            st.text_input("Student Name", value=student_name, disabled=True)  # Name field is pre-filled and disabled
+        
+            submit_button = st.form_submit_button(label="Post")
+            if submit_button:
+                post_data = {
+                "StudentId": student_id,
+                "Content": content,
+                "PostDate": str(post_date),
+                "Category": category,
+                "Name": student_name  # Pass the logged-in user's name with the post
+                }
+                response = requests.post(BASE_URL, json=post_data)
+                if response.status_code == 201:
+                    st.success("Your post has been created successfully!")
+                    st.session_state["show_form"] = False  # Hide form after successful submission
+                else:
+                    st.error("Failed to create the post. Please try again.")
 
 if posts:
     for post in posts:
@@ -158,40 +212,3 @@ if posts:
             st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.write("No posts found.")
-
-
-# Spacing between sections
-st.write("")
-st.write("")
-st.write("### 📝 Create or Manage Posts")
-
-
-
-    # Display the post creation form when the button is clicked
-st.write("### ✍️ Create a New Post")
-with st.form(key="create_post"):
-        # Automatically pre-fill the Student Name field with the logged-in user's name
-        student_name = st.session_state.get('name', 'Guest')
-        student_id = st.text_input("Student ID", placeholder="Enter your Student ID")
-        content = st.text_area("Content", placeholder="What's on your mind?")
-        post_date = st.date_input("Post Date", value=datetime.now().date())
-        category = st.text_input("Category", placeholder="Enter a category (e.g., News, Updates)")
-        
-        # Automatically fill the student's name in the form
-        st.text_input("Student Name", value=student_name, disabled=True)  # Name field is pre-filled and disabled
-
-        
-        submit_button = st.form_submit_button(label="Post")
-        if submit_button:
-            post_data = {
-                "StudentId": student_id,
-                "Content": content,
-                "PostDate": str(post_date),
-                "Category": category,
-                "Name": student_name  # Pass the logged-in user's name with the post
-            }
-            response = requests.post(BASE_URL, json=post_data)
-            if response.status_code == 201:
-                st.success("Your post has been created successfully!")
-            else:
-                st.error("Failed to create the post. Please try again.")
