@@ -43,7 +43,7 @@ def get_student_information(studentId):
     
     try:
         cursor = db.get_db().cursor()
-        cursor.execute(query, (studentId,))
+        cursor.execute(query, (studentId))
         theData = cursor.fetchone()
         
         if theData is None:
