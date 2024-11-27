@@ -97,16 +97,13 @@ st.markdown(
     .profile-icon:hover {
         background-color: #0056b3;
     }
-    </style>
-    <a href="/2_individualprofile" target="_self">
-        <div class="profile-icon">👤</div>
-    </a>
-    </style>
+    
     """,
     unsafe_allow_html=True,
 )
 
 SideBarLinks()
+
 
 # Title for the Streamlit app
 st.title("💬 Posts")

@@ -35,18 +35,31 @@ def get_all_student():
 # Returns all information of a particular student
 @student.route('/student/<int:studentId>', methods=['GET'])
 def get_student_information(studentId):
-    query = f'''
+    query = '''
         SELECT StudentId, Name, Email, Phone, YOG, Major, Advisor
         FROM Student
-        WHERE StudentId = {studentId}
+        WHERE StudentId = %s
     '''
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    theData = cursor.fetchall()
     
-    response = make_response(jsonify(theData))
-    response.status_code = 200
-    return response
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (studentId,))
+        theData = cursor.fetchone()
+        
+        if theData is None:
+            current_app.logger.error(f'Student with ID {studentId} not found.')
+            return jsonify({'error': 'Student not found'}), 404
+        
+        current_app.logger.info(f'GET /student Result of query = {theData}')
+        
+        # Return the data wrapped in a response
+        return jsonify({"status": "success", "student": theData}), 200
+
+    except Exception as e:
+        current_app.logger.error(f"Database error: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
+  
+
 
 # ------------------------------------------------------------
 # Gets the major of a particular student
