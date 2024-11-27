@@ -1,4 +1,8 @@
 
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
 
 
 DROP DATABASE IF EXISTS `coconnect`;
@@ -10,7 +14,7 @@ USE `coconnect`;
 
 -- Create the CoOp Advisor table
 CREATE TABLE CoOpAdvisor (
-    CoopAdvisorID INT PRIMARY KEY,
+    CoopAdvisorID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100),
     Department VARCHAR(50),
     Field VARCHAR(50)
@@ -18,7 +22,7 @@ CREATE TABLE CoOpAdvisor (
 
 -- Create the Student table
 CREATE TABLE Student (
-    StudentId INT PRIMARY KEY,
+    StudentId INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100),
     Email VARCHAR(100),
     Phone VARCHAR(15),
@@ -30,7 +34,7 @@ CREATE TABLE Student (
 
 -- Create the Resume table
 CREATE TABLE Resume (
-    ResumeId INT PRIMARY KEY,
+    ResumeId INT AUTO_INCREMENT PRIMARY KEY,
     StudentId INT,
     Content TEXT,
     LastUpdated DATE,
@@ -39,7 +43,7 @@ CREATE TABLE Resume (
 
 -- Create the Student Searching table
 CREATE TABLE StudentSearching (
-    StudentId INT PRIMARY KEY ,
+    StudentId INT AUTO_INCREMENT PRIMARY KEY ,
     ResumeId INT,
     EmployStatus VARCHAR(20),
     FOREIGN KEY (StudentId) REFERENCES Student(StudentId),
@@ -48,14 +52,14 @@ CREATE TABLE StudentSearching (
 
 -- Create the Student Exploring Fields table
 CREATE TABLE StudentExploringFields (
-    StudentId INT PRIMARY KEY ,
+    StudentId INT AUTO_INCREMENT PRIMARY KEY ,
     Interest VARCHAR(50),
     FOREIGN KEY (StudentId) REFERENCES Student(StudentId)
 );
 
 -- Create the Posts table
 CREATE TABLE Posts (
-    PostId INT PRIMARY KEY,
+    PostId INT AUTO_INCREMENT PRIMARY KEY,
     StudentId INT,
     Content TEXT,
     PostDate DATE,
@@ -65,7 +69,7 @@ CREATE TABLE Posts (
 
 -- Create the Company table
 CREATE TABLE Company (
-    CompanyId INT PRIMARY KEY,
+    CompanyId INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100),
     State VARCHAR(50),
     City VARCHAR(50)
@@ -73,7 +77,7 @@ CREATE TABLE Company (
 
 -- Create the Job Listing table
 CREATE TABLE JobListing (
-    JobId INT PRIMARY KEY,
+    JobId INT AUTO_INCREMENT PRIMARY KEY,
     Position VARCHAR(100),
     CompanyId INT,
     Department VARCHAR(50),
@@ -86,7 +90,7 @@ CREATE TABLE JobListing (
 
 -- Create the Notification table
 CREATE TABLE Notification (
-    NotifId INT PRIMARY KEY,
+    NotifId INT AUTO_INCREMENT PRIMARY KEY,
     PostId INT,
     JobId INT,
     StudentId INT,
@@ -102,7 +106,7 @@ CREATE TABLE Notification (
 
 -- Create the Employer table
 CREATE TABLE Employer (
-    EmployerId INT PRIMARY KEY,
+    EmployerId INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100),
     Email VARCHAR(100),
     Phone VARCHAR(15),
@@ -112,3 +116,9 @@ CREATE TABLE Employer (
 
 
 
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -9,6 +9,7 @@ from backend.resume.resume_routes import resume
 from backend.student.student_routes import student
 from backend.notification.notification_routes import notification
 from backend.studentSearching.studentSearching_routes import studentSearching
+from backend.db_connection.insertdataloops import populate_database
 import os
 from dotenv import load_dotenv
 
@@ -39,6 +40,15 @@ def create_app():
     # Initialize the database object with the settings above. 
     app.logger.info('current_app(): starting the database connection')
     db.init_app(app)
+
+    with app.app_context():
+        app.logger.info('Populating the database with initial data...')
+        try:
+            populate_database()  # Call the function here
+            app.logger.info('Database populated successfully!')
+        except Exception as e:
+            app.logger.error(f'Error while populating the database: {e}')
+
 
 
     # Register the routes from each Blueprint with the app object
