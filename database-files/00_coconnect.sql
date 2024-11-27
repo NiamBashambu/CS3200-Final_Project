@@ -134,7 +134,7 @@ SELECT
         WHEN 3 THEN 'Data Science'
     END
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 30) AS tmp;
 
 
 -- Insert Students
@@ -152,7 +152,7 @@ SELECT
     END,
     FLOOR(RAND() * 100) + 1
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
 
 
 
@@ -163,7 +163,7 @@ SELECT
     CONCAT('Resume content for student ', FLOOR(RAND() * 1000) + 1),
     DATE_ADD('2023-01-01', INTERVAL FLOOR(RAND() * 365) DAY)
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
 
 
 -- Insert Student Exploring Fields
@@ -177,7 +177,7 @@ SELECT
         WHEN 3 THEN 'Data Science'
     END
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
 
 
 -- Insert Student Searching Entries
@@ -191,7 +191,7 @@ SELECT
         WHEN 2 THEN 'Employed'
     END
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
 -- Insert Posts
 INSERT INTO Posts (StudentId, Content, PostDate, Category)
 SELECT
@@ -204,7 +204,7 @@ SELECT
         WHEN 2 THEN 'Event'
     END
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
 
 -- Insert Companies
 INSERT INTO Company (Name, State, City)
@@ -245,7 +245,7 @@ SELECT
     END,
     DATE_ADD('2023-01-01', INTERVAL FLOOR(RAND() * 365) DAY)
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 500) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 50) AS tmp;
 -- Insert Notifications
 INSERT INTO Notification (PostId, JobId, StudentId, TimeStamp, Content)
 SELECT
@@ -255,7 +255,7 @@ SELECT
     NOW(),
     CONCAT('Notification content for student ', FLOOR(RAND() * 1000) + 1)
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
 
 -- Insert Employers
 INSERT INTO Employer (Name, Email, Phone, CompanyId)
@@ -265,7 +265,7 @@ SELECT
     CONCAT('+1', FLOOR(RAND() * 9000000000) + 1000000000),
     FLOOR(RAND() * 100) + 1
 FROM
-    (SELECT 1 FROM information_schema.columns LIMIT 200) AS tmp;
+    (SELECT 1 FROM information_schema.columns LIMIT 50) AS tmp;
 
 
 
