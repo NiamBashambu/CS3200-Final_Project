@@ -16,8 +16,8 @@ posts = Blueprint('posts', __name__)
 @posts.route('/posts', methods=['GET'])
 def get_all_posts():
     query = '''
-        SELECT PostId, StudentId, Content, PostDate, Category 
-        FROM Posts
+        SELECT PostId, s.StudentId, Content, PostDate, Category, s.Name 
+        FROM Posts JOIN Student s
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)

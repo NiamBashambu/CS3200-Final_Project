@@ -84,6 +84,7 @@ if posts:
         content = post.get("Content")
         post_date = post.get("PostDate")
         category = post.get("Category")
+        student_name = post.get("Name")
 
             
         with st.container():
@@ -92,7 +93,7 @@ if posts:
                 st.markdown(
                     f"""
                     <div class="post-header">
-                        <span>🎓 <b>Student {student_id}</b></span>
+                        <span>🎓 <b>Student {student_name}</b></span>
                         <span style="float:right; color:#888;">{category}</span>
                     </div>
                     """,
