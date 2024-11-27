@@ -1,6 +1,7 @@
 import logging
 import streamlit as st
 import requests
+import db
 from datetime import datetime
 from modules.nav import SideBarLinks
 
@@ -65,3 +66,19 @@ st.markdown(
     unsafe_allow_html=True,
 )
 SideBarLinks()
+
+def fetch_profile(id):
+    query = 'SELECT * FROM employers WHERE EmployerId = :EmployerId'
+    profile = db.fetch_one(query, {'EmployerId': id})
+    return profile
+
+st.title('Employer Profile')
+
+st.write('')
+
+if st.session_state.get("authenticated"):
+    id = st.session_state.get('id', '1')
+
+    if id is not None:
+        profile = fetch_profile(id)
+        st.write(f"Hello, {profile['Name']}! 👋 What would you like to do today?")
