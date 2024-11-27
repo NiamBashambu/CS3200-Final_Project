@@ -117,6 +117,155 @@ CREATE TABLE Employer (
 );
 
 
+-- Insert CoOp Advisors
+INSERT INTO CoOpAdvisor (Name, Department, Field)
+SELECT
+    CONCAT('Advisor_', FLOOR(RAND() * 1000)),
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'CS'
+        WHEN 1 THEN 'ECE'
+        WHEN 2 THEN 'ME'
+        WHEN 3 THEN 'Bio'
+    END,
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'AI'
+        WHEN 1 THEN 'Robotics'
+        WHEN 2 THEN 'Networking'
+        WHEN 3 THEN 'Data Science'
+    END
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
+
+
+-- Insert Students
+INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor)
+SELECT
+    CONCAT('Student_', FLOOR(RAND() * 10000)),
+    CONCAT('student_', FLOOR(RAND() * 10000), '@example.com'),
+    CONCAT('+1', FLOOR(RAND() * 9000000000) + 1000000000),
+    2024 + FLOOR(RAND() * 4),
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'CS'
+        WHEN 1 THEN 'ECE'
+        WHEN 2 THEN 'ME'
+        WHEN 3 THEN 'Bio'
+    END,
+    FLOOR(RAND() * 100) + 1
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+
+
+
+-- Insert Resumes
+INSERT INTO Resume (StudentId, Content, LastUpdated)
+SELECT
+    FLOOR(RAND() * 1000) + 1,
+    CONCAT('Resume content for student ', FLOOR(RAND() * 1000) + 1),
+    DATE_ADD('2023-01-01', INTERVAL FLOOR(RAND() * 365) DAY)
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+
+
+-- Insert Student Exploring Fields
+INSERT INTO StudentExploringFields (StudentId, Interest)
+SELECT
+    FLOOR(RAND() * 1000) + 1,
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'AI'
+        WHEN 1 THEN 'Robotics'
+        WHEN 2 THEN 'Networking'
+        WHEN 3 THEN 'Data Science'
+    END
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+
+
+-- Insert Student Searching Entries
+INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus)
+SELECT
+    FLOOR(RAND() * 1000) + 1,
+    FLOOR(RAND() * 1000) + 1,
+    CASE FLOOR(RAND() * 3)
+        WHEN 0 THEN 'Searching'
+        WHEN 1 THEN 'Not Searching'
+        WHEN 2 THEN 'Employed'
+    END
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+-- Insert Posts
+INSERT INTO Posts (StudentId, Content, PostDate, Category)
+SELECT
+    FLOOR(RAND() * 1000) + 1,
+    CONCAT('Post content ', FLOOR(RAND() * 1000) + 1),
+    DATE_ADD('2023-01-01', INTERVAL FLOOR(RAND() * 365) DAY),
+    CASE FLOOR(RAND() * 3)
+        WHEN 0 THEN 'Announcement'
+        WHEN 1 THEN 'Job Opportunity'
+        WHEN 2 THEN 'Event'
+    END
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+
+-- Insert Companies
+INSERT INTO Company (Name, State, City)
+SELECT
+    CONCAT('Company_', FLOOR(RAND() * 100)),
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'CA'
+        WHEN 1 THEN 'NY'
+        WHEN 2 THEN 'TX'
+        WHEN 3 THEN 'FL'
+    END,
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'Los Angeles'
+        WHEN 1 THEN 'New York'
+        WHEN 2 THEN 'Austin'
+        WHEN 3 THEN 'Miami'
+    END
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 100) AS tmp;
+
+-- Insert Job Listings
+INSERT INTO JobListing (Position, CompanyId, Department, Description, Location, PostDate)
+SELECT
+    CONCAT('Position ', FLOOR(RAND() * 100)),
+    FLOOR(RAND() * 100) + 1,
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'CS'
+        WHEN 1 THEN 'ECE'
+        WHEN 2 THEN 'ME'
+        WHEN 3 THEN 'Bio'
+    END,
+    CONCAT('Job Description for position ', FLOOR(RAND() * 100)),
+    CASE FLOOR(RAND() * 4)
+        WHEN 0 THEN 'Los Angeles'
+        WHEN 1 THEN 'New York'
+        WHEN 2 THEN 'Austin'
+        WHEN 3 THEN 'Miami'
+    END,
+    DATE_ADD('2023-01-01', INTERVAL FLOOR(RAND() * 365) DAY)
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 500) AS tmp;
+-- Insert Notifications
+INSERT INTO Notification (PostId, JobId, StudentId, TimeStamp, Content)
+SELECT
+    FLOOR(RAND() * 1000) + 1,
+    FLOOR(RAND() * 500) + 1,
+    FLOOR(RAND() * 1000) + 1,
+    NOW(),
+    CONCAT('Notification content for student ', FLOOR(RAND() * 1000) + 1)
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 1000) AS tmp;
+
+-- Insert Employers
+INSERT INTO Employer (Name, Email, Phone, CompanyId)
+SELECT
+    CONCAT('Employer_', FLOOR(RAND() * 100)),
+    CONCAT('employer_', FLOOR(RAND() * 10000), '@example.com'),
+    CONCAT('+1', FLOOR(RAND() * 9000000000) + 1000000000),
+    FLOOR(RAND() * 100) + 1
+FROM
+    (SELECT 1 FROM information_schema.columns LIMIT 200) AS tmp;
 
 
 

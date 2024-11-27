@@ -74,7 +74,7 @@ st.write("")
 st.write("Student Profile")
 
 # Fetch Students Automatically from the API
-students = requests.get(BASE_URL)
+students = requests.get(BASE_URL).json()
 
 
 if students:

@@ -41,14 +41,7 @@ def create_app():
     app.logger.info('current_app(): starting the database connection')
     db.init_app(app)
 
-    with app.app_context():
-        app.logger.info('Populating the database with initial data...')
-        try:
-            populate_database()  # Call the function here
-            app.logger.info('Database populated successfully!')
-        except Exception as e:
-            app.logger.error(f'Error while populating the database: {e}')
-
+   
 
 
     # Register the routes from each Blueprint with the app object
