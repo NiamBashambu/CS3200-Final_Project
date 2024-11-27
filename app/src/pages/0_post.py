@@ -87,7 +87,7 @@ st.markdown(
 SideBarLinks()
 
 # Title for the Streamlit app
-st.title("💬 Post Feed")
+st.title("💬 Posts")
 st.write("")
 # Display the user's first name if authenticated
 if st.session_state.get("authenticated"):
@@ -98,6 +98,10 @@ st.write("### 📰 Posts Feed")
 
 # Fetch Posts Automatically from the API
 posts = requests.get(BASE_URL).json()
+try:
+    posts = sorted(posts, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
+except ValueError as e:
+    st.error(f"Error parsing date: {e}")
 
 # Add a button to add a post
 with st.container():
@@ -175,6 +179,7 @@ with st.form(key="create_post"):
         
         # Automatically fill the student's name in the form
         st.text_input("Student Name", value=student_name, disabled=True)  # Name field is pre-filled and disabled
+
         
         submit_button = st.form_submit_button(label="Post")
         if submit_button:
