@@ -125,7 +125,7 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
             st.write(f"**Major:** {student.get('Major', 'N/A')}")
             st.write(f"**Advisor:** {student.get('Advisor', 'N/A')}")
         else:
-            st.error(f"Error fetching student details: {student.status_code}")
+            st.error(f"Error fetching student details: ")
     else:
         st.error("Student ID is missing from session state.")
 else:
