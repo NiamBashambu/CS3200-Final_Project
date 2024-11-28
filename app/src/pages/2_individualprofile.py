@@ -114,7 +114,6 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
 
         if student:
             
-            st.write(f"Student object: {student}")
             st.success("Student details retrieved successfully!")
             st.write("### Student Information")
             st.write(f"**Student ID:** {student.get('StudentId','N/A')}")

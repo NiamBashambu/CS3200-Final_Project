@@ -53,7 +53,12 @@ def get_student_information(studentId):
         current_app.logger.info(f'GET /student Result of query = {theData}')
         
         # Return the data wrapped in a response
-        return jsonify({"status": "success", "student": theData}), 200
+        response = make_response(jsonify(theData))
+    
+
+        response.status_code = 200
+        return response
+
 
     except Exception as e:
         current_app.logger.error(f"Database error: {e}")
