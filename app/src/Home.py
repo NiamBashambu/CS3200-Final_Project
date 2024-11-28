@@ -41,7 +41,7 @@ st.write('### HI! As which user would you like to log in?')
 # functionality, we put a button on the screen that the user 
 # can click to MIMIC logging in as that mock user. 
 
-if st.button("Act as Sarah Johnson, an Employer for a company", 
+if st.button("Act as John Doe, an Employer for a company", 
             type = 'primary', 
             use_container_width=True):
     # when user clicks the button, they are now considered authenticated
@@ -50,7 +50,8 @@ if st.button("Act as Sarah Johnson, an Employer for a company",
     st.session_state['role'] = 'employer'
     # we add the first name of the user (so it can be displayed on 
     # subsequent pages). 
-    st.session_state['first_name'] = 'John'
+    st.session_state['name'] = 'John Doe'
+    st.session_state['employer_id'] = 51
     # finally, we ask streamlit to switch to another page, in this case, the 
     # landing page for this particular user type
     st.switch_page('pages/10_employerprofile.py')

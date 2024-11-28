@@ -4,11 +4,11 @@ import requests
 from datetime import datetime
 from modules.nav import SideBarLinks
 
-
 # Set up logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+# Base API URL for Employer
 BASE_URL = "http://web-api:4000/e/employer"
 
 # Set page layout to wide
@@ -64,4 +64,38 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
 SideBarLinks()
+
+# Page title
+st.title("👤 Employer Profile")
+
+# Check if the user is authenticated
+if "authenticated" in st.session_state and st.session_state["authenticated"]:
+    # Get user data from session state
+    user_name = st.session_state.get('name', 'Guest')
+    employer_id = st.session_state.get('employer_id', 'Unknown')  # Ensure EmployerId is saved in session state
+
+    st.write(f"Hello, {user_name}! 👋 Welcome to your Employer Profile page.")
+
+    # Ensure we have an employer ID to fetch their profile
+    if employer_id:
+        # Construct the API request URL to fetch only the specific employer profile
+        employer = requests.get(f"{BASE_URL}/{employer_id}").json()
+
+        if employer:
+            st.success("Employer details retrieved successfully!")
+            st.write("### Employer Information")
+            st.write(f"**Employer ID:** {employer.get('EmployerId', 'N/A')}")
+            st.write(f"**Company Name:** {employer.get('CompanyName', 'N/A')}")
+            st.write(f"**Contact Email:** {employer.get('Email', 'N/A')}")
+            st.write(f"**Contact Phone:** {employer.get('Phone', 'N/A')}")
+            st.write(f"**Industry:** {employer.get('Industry', 'N/A')}")
+            st.write(f"**Website:** {employer.get('Website', 'N/A')}")
+            st.write(f"**Hiring Manager:** {employer.get('HiringManager', 'N/A')}")
+        else:
+            st.error(f"Error fetching employer details: ")
+    else:
+        st.error("Employer ID is missing from session state.")
+else:
+    st.write("You are not authenticated. Please log in to view your profile.")
