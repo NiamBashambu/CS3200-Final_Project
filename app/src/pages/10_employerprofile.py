@@ -87,12 +87,10 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
             st.success("Employer details retrieved successfully!")
             st.write("### Employer Information")
             st.write(f"**Employer ID:** {employer.get('EmployerId', 'N/A')}")
-            st.write(f"**Company Name:** {employer.get('CompanyName', 'N/A')}")
+            st.write(f"**Company ID:** {employer.get('CompanyId','N/A')}")
+  
             st.write(f"**Contact Email:** {employer.get('Email', 'N/A')}")
             st.write(f"**Contact Phone:** {employer.get('Phone', 'N/A')}")
-            st.write(f"**Industry:** {employer.get('Industry', 'N/A')}")
-            st.write(f"**Website:** {employer.get('Website', 'N/A')}")
-            st.write(f"**Hiring Manager:** {employer.get('HiringManager', 'N/A')}")
         else:
             st.error(f"Error fetching employer details: ")
     else:
