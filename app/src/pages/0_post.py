@@ -211,6 +211,7 @@ if st.session_state["show_form"]:
                 "Name": student_name  # Pass the logged-in user's name with the post
             }
             response = requests.post(BASE_URL, json=post_data)
+            
             if response.status_code == 201:
                 st.success("Your post has been created successfully!")
                 st.session_state["show_form"] = False  # Hide form after successful submission
