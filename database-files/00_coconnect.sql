@@ -218,6 +218,7 @@ INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor) VALUES
 ('Jacob Collins', 'jacobcollins@example.com', '+5050505050', 2024, 'CS', 49),
 ('Charlotte White', 'charlottewhite@example.com', '+5151515151', 2025, 'ECE', 50),
 ('Olivia Garcia', 'oliviagarcia@example.com', '+5242425151', 2027, 'CS/BA', 30);
+('Will Jones', 'willjones@example.com', '+8692091238', 2028, 'ME', 32);
 
 -- Resumes
 INSERT INTO Resume (StudentId, Content, LastUpdated) VALUES

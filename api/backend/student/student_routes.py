@@ -42,8 +42,8 @@ def get_student_information(studentId):
     '''
     
     try:
-        cursor = db.get_db().cursor()
-        cursor.execute(query, (studentId))
+        cursor = db.get_db().cursor(dictionary = True)
+        cursor.execute(query, (studentId,))
         theData = cursor.fetchone()
         
         if theData is None:
@@ -57,7 +57,7 @@ def get_student_information(studentId):
     
 
         response.status_code = 200
-        return response
+        return response, 200
 
 
     except Exception as e:
