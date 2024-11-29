@@ -168,16 +168,14 @@ st.markdown("</div>", unsafe_allow_html=True)
 # Display users first name if authenticated
 if st.session_state.get("authenticated"):
     user_name = st.session_state.get('name', 'Guest')
-    st.write(f"Hello, {user_name}! 👋 Welcome to the Post Feed")
+    st.write(f"Hello, {user_name}! 👋 Welcome to the JobListing Feed")
 
 # Fetch Job Listings Automatically from API
+jobs = requests.get(BASE_URL).json()
 try:
-    response = requests.get(BASE_URL)
-    jobs = response.json()
-    jobs = sorted(jobs, key=lambda x: datetime.strptime(x["posted_date"], "%Y-%m-%d"), reverse=True)
-except Exception as e:
-    jobs = []
-    st.error(f"Error fetching job listings: {e}")
+    jobs = sorted(jobs, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
+except ValueError as e:
+    st.error(f"Error parsing date: {e}")
 
 # Add a button to add a new job
 if "show_job_form" not in st.session_state:
