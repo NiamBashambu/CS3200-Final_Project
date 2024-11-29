@@ -88,6 +88,7 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
             st.write("### Employer Information")
             st.write(f"**Employer ID:** {employer.get('EmployerId', 'N/A')}")
             st.write(f"**Company ID:** {employer.get('CompanyId','N/A')}")
+            st.write(f"**Company Name:** {employer.get('CompanyName','N/A')}")
   
             st.write(f"**Contact Email:** {employer.get('Email', 'N/A')}")
             st.write(f"**Contact Phone:** {employer.get('Phone', 'N/A')}")

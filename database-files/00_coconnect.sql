@@ -117,6 +117,17 @@ CREATE TABLE Employer (
     CompanyId INT,
     FOREIGN KEY (CompanyId) REFERENCES Company(CompanyId)
 );
+
+CREATE TABLE CompanyJobs (
+    CompanyJobId INT AUTO_INCREMENT PRIMARY KEY,
+    CompanyId INT,
+    JobId INT,
+    CompanyName VARCHAR(100),
+    JobPosition VARCHAR(100),
+    FOREIGN KEY (CompanyId) REFERENCES Company(CompanyId),
+    FOREIGN KEY (JobId) REFERENCES JobListing(JobId)
+);
+
 -- CoOp Advisors
 INSERT INTO CoOpAdvisor (Name, Department, Field) VALUES
 ('Advisor_Alice', 'CS', 'AI'),
@@ -485,7 +496,6 @@ INSERT INTO Company (Name, State, City) VALUES
 ('BioTech Labs', 'MA', 'Boston');
 
 
--- Job Listings
 INSERT INTO JobListing (Position, CompanyId, Department, Description, Location, PostDate, ApplicationLink) VALUES
 ('Software Engineer', 1, 'CS', 'Develop cutting-edge applications', 'Los Angeles', '2024-03-15', 'https://techinnovators.com/jobs/software-engineer'),
 ('Bioinformatics Analyst', 2, 'Bio', 'Analyze genetic data', 'New York', '2025-05-20', 'https://biogenetics.com/careers/bioinformatics-analyst'),
@@ -530,7 +540,34 @@ INSERT INTO JobListing (Position, CompanyId, Department, Description, Location, 
 ('Blockchain Architect', 41, 'CS', 'Design blockchain-based solutions', 'Dallas', '2024-10-20', 'https://blockchainarchitects.com/careers/blockchain-architect'),
 ('Software Engineer Intern', 42, 'CS', 'Assist in software development projects', 'Los Angeles', '2025-05-10', 'https://softwareinternships.com/careers/software-engineer-intern'),
 ('Research Scientist', 43, 'Research', 'Conduct AI research for healthcare', 'Miami', '2026-04-25', 'https://researchers.com/jobs/research-scientist'),
-('Full Stack Developer Intern', 44, 'CS', 'Internship for full-stack web development', 'New York', '2027-03-10', 'https://webdevinternships.com/careers/full-stack-developer-intern');
+('Full Stack Developer Intern', 44, 'CS', 'Internship for full-stack web development', 'New York', '2027-03-10', 'https://webdevinternships.com/careers/full-stack-developer-intern'),
+('Blockchain Developer Intern', 45, 'CS', 'Internship for blockchain development', 'Los Angeles', '2024-02-20', 'https://blockchaininterns.com/careers/blockchain-developer-intern'),
+('Data Scientist Intern', 46, 'CS', 'Assist with data analysis projects', 'San Francisco', '2025-06-30', 'https://datasciencestudents.com/careers/data-scientist-intern'),
+('IoT Developer', 47, 'IoT', 'Work on Internet of Things development', 'Austin', '2026-11-10', 'https://iotdevs.com/careers/iot-developer'),
+('Cloud Engineer', 48, 'Cloud', 'Work on cloud infrastructure', 'Seattle', '2027-01-20', 'https://cloudengineers.com/careers/cloud-engineer'),
+('Robotics Intern', 49, 'Robotics', 'Assist with robotics engineering projects', 'San Francisco', '2024-07-10', 'https://roboticsinterns.com/careers/robotics-intern'),
+('Data Engineer Intern', 50, 'CS', 'Assist with data engineering tasks', 'Houston', '2025-09-05', 'https://dataenginterns.com/careers/data-engineer-intern'),
+('Software Developer', 51, 'CS', 'Develop software applications', 'Phoenix', '2026-05-15', 'https://softwaredevinterns.com/careers/software-developer'),
+('Cybersecurity Intern', 52, 'Security', 'Assist in cybersecurity projects', 'Dallas', '2027-07-05', 'https://securityinterns.com/careers/cybersecurity-intern'),
+('AI Research Intern', 53, 'AI', 'Assist in AI research projects', 'Chicago', '2024-12-05', 'https://airesearchinterns.com/careers/ai-research-intern'),
+('Blockchain Engineer Intern', 54, 'CS', 'Assist with blockchain development', 'Miami', '2025-04-10', 'https://blockchaininterns.com/careers/blockchain-engineer-intern'),
+('Full Stack Developer Intern', 55, 'CS', 'Assist in full-stack web development', 'Tampa', '2026-08-01', 'https://webdevinterns.com/careers/full-stack-developer-intern'),
+('Cloud Solutions Architect', 56, 'Cloud', 'Design cloud-based solutions', 'Seattle', '2027-06-15', 'https://cloudarchitects.com/careers/cloud-solutions-architect'),
+('AI Engineer Intern', 57, 'AI', 'Assist with AI system development', 'Los Angeles', '2024-11-30', 'https://aiinternships.com/careers/ai-engineer-intern'),
+('IoT Researcher', 58, 'IoT', 'Conduct research on IoT technologies', 'San Diego', '2025-07-15', 'https://iotresearchers.com/careers/iot-researcher'),
+('Machine Learning Developer', 59, 'ML', 'Work on machine learning algorithms', 'San Francisco', '2026-02-10', 'https://mlcareers.com/careers/machine-learning-developer'),
+('Data Analyst Intern', 60, 'Data', 'Assist in data analysis tasks', 'Houston', '2027-04-25', 'https://dataanalystinterns.com/careers/data-analyst-intern'),
+('Robotics Engineering Intern', 61, 'Robotics', 'Assist with robotics engineering', 'Phoenix', '2024-10-15', 'https://roboticsinterns.com/careers/robotics-engineering-intern'),
+('AI Software Engineer', 62, 'AI', 'Develop AI software solutions', 'Austin', '2025-08-20', 'https://aisolutions.com/careers/ai-software-engineer'),
+('Security Engineer Intern', 63, 'Security', 'Assist in security engineering tasks', 'Chicago', '2026-09-05', 'https://securityinterns.com/careers/security-engineer-intern'),
+('AI Specialist', 64, 'AI', 'Specialize in AI models and algorithms', 'New York', '2027-07-05', 'https://aispecialists.com/careers/ai-specialist'),
+('Cyber Defense Engineer', 65, 'Security', 'Develop strategies to protect systems', 'Orlando', '2024-03-10', 'https://cyberdefense.com/careers/cyber-defense-engineer'),
+('DevOps Engineer', 66, 'Ops', 'Work on development and operations', 'San Francisco', '2025-09-20', 'https://devopscareers.com/careers/devops-engineer'),
+('Embedded Systems Intern', 67, 'ECE', 'Assist with embedded systems development', 'Houston', '2026-01-25', 'https://embeddedinterns.com/careers/embedded-systems-intern'),
+('Software Architect', 68, 'CS', 'Design software architecture for projects', 'Chicago', '2027-10-05', 'https://softwarearchitects.com/careers/software-architect'),
+('Machine Learning Researcher', 69, 'ML', 'Research new ML models and techniques', 'Dallas', '2024-12-01', 'https://mlresearchers.com/careers/machine-learning-researcher'),
+('IoT Application Developer', 70, 'IoT', 'Develop applications for IoT devices', 'Orlando', '2025-06-10', 'https://iotdevelopers.com/careers/iot-application-developer');
+
 
 -- Notifications
 INSERT INTO Notification (PostId, JobId, StudentId, TimeStamp, Content) VALUES
@@ -638,6 +675,78 @@ INSERT INTO Employer (Name, Email, Phone, CompanyId) VALUES
 ('Wyatt Wilson', 'wyatt.wilson@airobotics.com', '+12175595389', 49),
 ('Mason Taylor', 'mason.taylor@dataforge.com', '+14175596290', 50),
 ('John Doe', 'doe.john@dataforge.com', '+14175496290', 44);
+
+INSERT INTO CompanyJobs (CompanyId, CompanyName) VALUES
+(1, 'TechCorp'),
+(2, 'MedicaHealth'),
+(3, 'DesignPro'),
+(4, 'EduLearn'),
+(5, 'EcoEnergy'),
+(6, 'RetailX'),
+(7, 'FinTech Solutions'),
+(8, 'AutoInnovations'),
+(9, 'FoodFusion'),
+(10, 'HealthTech'),
+(11, 'Skyline Aviation'),
+(12, 'MediaWorld'),
+(13, 'LegalEagle'),
+(14, 'BuildIt Construction'),
+(15, 'TechStart'),
+(16, 'SmartHome Inc.'),
+(17, 'CreativeWorks'),
+(18, 'HealthPlus'),
+(19, 'LogiTrack'),
+(20, 'GreenSolutions'),
+(21, 'TechVista'),
+(22, 'MediaHouse'),
+(23, 'SpaceExplorers'),
+(24, 'CleanEnergyCo'),
+(25, 'LegalAdvisors'),
+(26, 'SolarPower Solutions'),
+(27, 'BioTech Innovations'),
+(28, 'AquaSystems'),
+(29, 'UrbanDesigners'),
+(30, 'NextGen Robotics'),
+(31, 'DigitalWorks'),
+(32, 'Quantum Technologies'),
+(33, 'CyberSecure Systems'),
+(34, 'VirtualTech'),
+(35, 'ElectricFuture'),
+(36, 'SmartCity Developments'),
+(37, 'WorldWide Logistics'),
+(38, 'Sustainable Agriculture'),
+(39, 'Global Enterprises'),
+(40, 'TechVentures'),
+(41, 'SpaceTech Industries'),
+(42, 'Advanced Materials Corp'),
+(43, 'Oceanic Research Group'),
+(44, 'Future Foods Co.'),
+(45, 'HighTech Solutions'),
+(46, 'AgriSolutions Ltd.'),
+(47, 'Intelligent Systems Inc.'),
+(48, 'Aerospace Innovations'),
+(49, 'Digital Media Network'),
+(50, 'Environmental Impact Co.'),
+(51, 'Artificial Intelligence Inc.'),
+(52, 'Global HealthCare Solutions'),
+(53, 'GreenTech Innovations'),
+(54, 'EnergyWorld'),
+(55, 'NextWave Enterprises'),
+(56, 'Innovation Lab'),
+(57, 'PureTech Solutions'),
+(58, 'Urban Green Initiatives'),
+(59, 'FutureSpace Inc.'),
+(60, 'Modern Industries'),
+(61, 'Innovative Technologies'),
+(62, 'BlueSky Communications'),
+(63, 'SmartFarm Technologies'),
+(64, 'FinTech Innovations'),
+(65, 'LogiTech Solutions'),
+(66, 'Quantum Research Labs'),
+(67, 'MedTech Solutions'),
+(68, 'Smart Construction Co.'),
+(69, 'Tech Manufacturing Inc.'),
+(70, 'BioEngineering Solutions');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

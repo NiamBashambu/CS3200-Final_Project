@@ -15,22 +15,23 @@ from backend.db_connection import db
 # Create a new Blueprint object for posts
 jobListing = Blueprint('joblisting', __name__)
 
-# ------------------------------------------------------------
 # Get all job listings
 @jobListing.route('/jobListing', methods=['GET'])
 def get_all_jobListing():
     query = '''
-        SELECT JobId, Position, CompanyId, Department, Description,PostDate,ApplicationLink,Location 
-        FROM JobListing
+        SELECT jl.CompanyId,  jl.JobId, cj.CompanyName, 
+               jl.Department, jl.Description, jl.PostDate, jl.ApplicationLink, jl.Location,jl.Position
+        FROM CompanyJobs cj
+        JOIN JobListing jl ON cj.JobId = jl.JobId
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
 
-    
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
     
 
 # ------------------------------------------------------------

@@ -226,6 +226,7 @@ if st.session_state["show_job_form"]:
 if jobs:
     for job in jobs:
         job_id = job.get("JobId")
+        company_name = job.get("CompanyName")
         position = job.get("Position")
         company_id = job.get("CompanyId")
         post_date = job.get("PostDate")
@@ -238,7 +239,7 @@ if jobs:
                 f"""
                 <div class="post-container">
                     <div class="post-header">
-                        <span><b>Job Id:{job_id}</b>  <b>Company Id:{company_id}</b></span>
+                        <span><b>Postion: {position}</b>  <b>Company: {company_name}</b></span>
                         <span><b>Location:</b>{location}</span>
                     </div>
                     <div class="post-content">
