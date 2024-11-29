@@ -4,7 +4,7 @@ from flask import jsonify
 from flask import make_response
 from flask import current_app
 from backend.db_connection import db
-
+  
 # Create a new Blueprint object for advisors
 advisors = Blueprint('advisors', __name__)
 
