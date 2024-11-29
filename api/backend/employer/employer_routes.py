@@ -31,10 +31,10 @@ def get_all_employers():
 @employer.route('/employer/<int:employerId>', methods=['GET'])
 def get_employer_information(employerId):
     query = '''
-        SELECT e.EmployerId, e.Name, e.Email, e.Phone, e.CompanyId, cj.CompanyName
+SELECT e.EmployerId, e.Name, e.Email, e.Phone, e.CompanyId, CompanyName
         FROM Employer e
-        JOIN Company c ON e.CompanyId = c.CompanyId
-        JOIN CompanyJobs cj ON e.CompanyId = cj.CompanyId
+        LEFT JOIN Company c ON e.CompanyId = c.CompanyId
+        LEFT JOIN CompanyJobs ON e.CompanyId = CompanyJobs.CompanyId
         WHERE e.EmployerId = %s
     '''
     

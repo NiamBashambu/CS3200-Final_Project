@@ -674,7 +674,7 @@ INSERT INTO Employer (Name, Email, Phone, CompanyId) VALUES
 ('Lily Johnson', 'lily.johnson@techsolutionsgroup.com', '+18175594578', 48),
 ('Wyatt Wilson', 'wyatt.wilson@airobotics.com', '+12175595389', 49),
 ('Mason Taylor', 'mason.taylor@dataforge.com', '+14175596290', 50),
-('John Doe', 'doe.john@dataforge.com', '+14175496290', 44);
+('John Doe', 'doe.john@dataforge.com', '+14175496290', 51);
 
 INSERT INTO CompanyJobs (CompanyId, CompanyName) VALUES
 (1, 'TechCorp'),
