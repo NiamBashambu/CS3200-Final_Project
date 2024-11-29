@@ -78,7 +78,7 @@ if st.button('Act as Mary Smith, a COOP advisor ',type = 'primary',use_container
         st.session_state['authenticated'] = True
         st.session_state['role']  = 'advisor'
         st.session_state['name'] = 'Mary'
-        st.session_state['advisor_id'] = 51
+        st.session_state['advisor_id'] = 47
         st.switch_page('pages/1_allstudentsprofile.py')
 
 
