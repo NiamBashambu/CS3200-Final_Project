@@ -4,7 +4,7 @@ import requests
 from datetime import datetime
 from modules.nav import SideBarLinks
 # Base API URL
-BASE_URL = "http://web-api:4000/student"
+BASE_URL = "http://web-api:4000/s/student"
 st.set_page_config(layout="wide", page_title="Student Profile", page_icon="👨‍🎓")
 
 # Custom CSS
@@ -96,7 +96,7 @@ st.markdown(
 
 SideBarLinks()
 # Page title
-st.title("👨‍🎓 Student Profile")
+st.title("👤 Student Profile")
 
 
 # Check if the user is authenticated
@@ -106,15 +106,14 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
     student_id = st.session_state.get('student_id', 'Unknown')  # Ensure StudentId is saved in session state
 
     st.write(f"Hello, {user_name}! 👋 Welcome to your Student Profile page.")
-    
+
     # Ensure we have a student ID to fetch their profile
     if student_id:
         # Construct the API request URL to fetch only the specific student profile
-        response, status_code = requests.get(f"{BASE_URL}/{student_id}")
+        student = requests.get(f"{BASE_URL}/{student_id}").json()
 
-        # check if info is properly being fetched
-        if status_code == 200:
-            student = response.json()
+        if student:
+            
             st.success("Student details retrieved successfully!")
             st.write("### Student Information")
             st.write(f"**Student ID:** {student.get('StudentId','N/A')}")
@@ -124,9 +123,8 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
             st.write(f"**Year of Graduation:** {student.get('YOG', 'N/A')}")
             st.write(f"**Major:** {student.get('Major', 'N/A')}")
             st.write(f"**Advisor:** {student.get('Advisor', 'N/A')}")
-        
         else:
-            st.error(f"Error fetching student details")
+            st.error(f"Error fetching student details: ")
     else:
         st.error("Student ID is missing from session state.")
 else:
