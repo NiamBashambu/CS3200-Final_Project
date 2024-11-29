@@ -9,10 +9,10 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 # Base API URL for job listings
-BASE_URL = "http://web-api:4000/p/job-listings"
+BASE_URL = "http://web-api:4000/j/jobListings"
 
 # Page configuration
-st.set_page_config(page_title="Job Listings", page_icon="💼", layout="wide")
+st.set_page_config(layout="wide", page_title="Job Listings", page_icon="💼")
 
 # Custom CSS for styling
 st.markdown(
