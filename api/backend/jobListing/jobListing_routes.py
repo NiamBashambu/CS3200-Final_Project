@@ -22,7 +22,7 @@ def get_all_jobListing():
         SELECT jl.CompanyId,  jl.JobId, cj.CompanyName, 
                jl.Department, jl.Description, jl.PostDate, jl.ApplicationLink, jl.Location,jl.Position
         FROM CompanyJobs cj
-        JOIN JobListing jl ON cj.JobId = jl.JobId
+        JOIN JobListing jl ON cj.CompanyId = jl.CompanyId
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
