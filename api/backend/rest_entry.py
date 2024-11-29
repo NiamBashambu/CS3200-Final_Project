@@ -10,6 +10,7 @@ from backend.student.student_routes import student
 from backend.notification.notification_routes import notification
 from backend.studentSearching.studentSearching_routes import studentSearching
 from backend.db_connection.insertdataloops import populate_database
+from backend.advisor.advisor_routes import advisors
 import os
 from dotenv import load_dotenv
 
@@ -54,6 +55,7 @@ def create_app():
     app.register_blueprint(student, url_prefix = '/s')
     app.register_blueprint(notification,url_prefix = '/u')
     app.register_blueprint(studentSearching,url_prefix = '/t')
+    app.register_blueprint(advisors,url_prefix='/a')
 
     # Don't forget to return the app object
     return app

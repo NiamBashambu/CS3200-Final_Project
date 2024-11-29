@@ -1,21 +1,20 @@
 import logging
 import streamlit as st
 import requests
+import pandas as pd
 from datetime import datetime
 from modules.nav import SideBarLinks
-
 
 # Set up logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
-
 
 BASE_URL = "http://web-api:4000/s/student"
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="Student Profile", page_icon="👨‍🎓")
 
-# Custom CSS
+# Custom CSS for styling
 st.markdown(
     """
     <style>
@@ -61,23 +60,28 @@ st.markdown(
         width: 100%;
         margin-top: 10px;
     }
+    .student-table th {
+        text-align: left;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
+# Sidebar links
 SideBarLinks()
+
 # Title for the Streamlit app
 st.title("Student Profile")
-st.write("")
-
-# Display Section Title for Students
-st.write("Student Profile")
 
 # Fetch Students Automatically from the API
 students = requests.get(BASE_URL).json()
 
-
+# Check if students are available
 if students:
+    # Create a list to hold student data for the DataFrame
+    student_data = []
+
     for student in students:
         student_id = student.get("StudentId")
         student_name = student.get("Name")
@@ -85,23 +89,23 @@ if students:
         student_YOG = student.get("YOG")
         student_major = student.get("Major")
         
-        with st.container():
-                st.markdown('<div class="student-container">', unsafe_allow_html=True)
-                # Post Header: Student Info and Post Category
-                st.markdown(
-                    f"""
-                    <div class="student-header">
-                        <span>🎓 <b>Student {student_name}</b></span>
-                        <span style="float:right; color:#888;">{student_major}</span>
-                        <span style="float:right; color:#888;">{student_YOG}</span>
-                        <span style="float:right; color:#888;">{student_email}</span>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-                
+        # Add each student's data to the list
+        student_data.append([student_id, student_name, student_email, student_YOG, student_major])
 
-            
-       
+    # Convert the list of student data into a pandas DataFrame
+    df = pd.DataFrame(student_data, columns=["Student ID", "Name", "Email", "Year of Graduation (YOG)", "Major"])
+
+    # Display the students data in a table format
+    st.markdown(
+        """
+        <div class="student-container">
+            <div class="student-header">
+                <b>All Students Information</b>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Display the dataframe as a table in Streamlit
+    st.dataframe(df)
 else:
     st.write("No students found.")

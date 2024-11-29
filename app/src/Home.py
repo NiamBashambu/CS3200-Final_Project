@@ -77,7 +77,8 @@ if st.button('Act as Will Jones, a student exploring different fields',
 if st.button('Act as Mary Smith, a COOP advisor ',type = 'primary',use_container_width=True):
         st.session_state['authenticated'] = True
         st.session_state['role']  = 'advisor'
-        st.session_state['first_name'] = 'Mary'
+        st.session_state['name'] = 'Mary'
+        st.session_state['advisor_id'] = 51
         st.switch_page('pages/1_allstudentsprofile.py')
 
 

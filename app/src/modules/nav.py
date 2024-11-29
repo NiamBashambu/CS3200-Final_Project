@@ -61,7 +61,9 @@ def SideBarLinks(show_home=True):
             pass
         
         if st.session_state["role"] == "advisor":
-            pass
+            st.sidebar.page_link(
+                "pages/6_advisorprofile.py", label="Profile", icon="👤"
+            )
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
