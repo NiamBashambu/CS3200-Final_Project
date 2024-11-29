@@ -40,7 +40,9 @@ def SideBarLinks(show_home=True):
 
         # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
         if st.session_state["role"] == "employer":
-            pass
+            st.sidebar.page_link(
+                "pages/3_joblistings.py", label="Create Job Listing", icon="📚"
+            )
 
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "student_searching":
