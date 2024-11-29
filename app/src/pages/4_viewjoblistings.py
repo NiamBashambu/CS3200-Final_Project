@@ -8,10 +8,11 @@ from modules.nav import SideBarLinks
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-BASE_URL = "http://web-api:4000/p/posts"
+# Base API URL for job listings
+BASE_URL = "http://web-api:4000/j/jobListing"
 
-# Set page layout to wide
-st.set_page_config(layout="wide", page_title="Post Feed", page_icon="💬")
+# Page configuration
+st.set_page_config(layout="wide", page_title="Job Listings", page_icon="💼")
 
 # Custom CSS for fancy styling
 st.markdown(
@@ -159,109 +160,51 @@ st.markdown(
 # Sidebar links (if any)
 SideBarLinks()
 
-# Title for the Streamlit app
+# Title for Streamlit
 st.markdown("<div class='header-container'>", unsafe_allow_html=True)
-st.title("💬 Post Feed")
+st.title("💼 Job Listings")
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Display the user's first name if authenticated
+# Display users first name if authenticated
 if st.session_state.get("authenticated"):
     user_name = st.session_state.get('name', 'Guest')
-    st.write(f"Hello, {user_name}! 👋 Welcome to the Post Feed")
+    st.write(f"Hello, {user_name}! 👋 Welcome to the JobListing Feed")
 
-# Fetch Posts Automatically from the API
-posts = requests.get(BASE_URL).json()
+# Fetch Job Listings Automatically from API
+jobs = requests.get(BASE_URL).json()
 try:
-    posts = sorted(posts, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
+    jobs = sorted(jobs, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
 except ValueError as e:
     st.error(f"Error parsing date: {e}")
 
-# Add a button to add a post
-with st.container():
-    if "show_form" not in st.session_state:
-        st.session_state["show_form"] = False
-
-    def toggle_form():
-        st.session_state["show_form"] = not st.session_state["show_form"]
-
-    # Plus button to toggle form visibility
-    st.button("➕ Create Post", key="toggle_form", on_click=toggle_form, use_container_width=True)
-
-# Display the post creation form if the state is toggled
-if st.session_state["show_form"]:
-    st.write("### ✍️ Create a New Post")
-    with st.form(key="create_post", clear_on_submit=True):
-        # Automatically pre-fill the Student Name field with the logged-in user's name
-        student_name = st.session_state.get("name", "Guest")
-        student_id = st.text_input("Student ID", placeholder="Enter your Student ID")
-        content = st.text_area("Content", placeholder="What's on your mind?")
-        post_date = st.date_input("Post Date", value=datetime.now().date())
-        category = st.text_input("Category", placeholder="Enter a category (e.g., News, Updates)")
-
-        # Pre-fill name field
-        st.text_input("Student Name", value=student_name, disabled=True)
-    
-        submit_button = st.form_submit_button(label="Post", use_container_width=True)
-        if submit_button:
-            post_data = {
-                "StudentId": student_id,
-                "Content": content,
-                "PostDate": str(post_date),
-                "Category": category,
-                "Name": student_name  # Pass the logged-in user's name with the post
-            }
-            response = requests.post(BASE_URL, json=post_data)
-            if response.status_code == 201:
-                st.success("Your post has been created successfully!")
-                st.session_state["show_form"] = False  # Hide form after successful submission
-            else:
-                st.error("Failed to create the post. Please try again.")
-
-# Display posts if available
-if posts:
-    for post in posts:
-        post_id = post.get("PostId")
-        student_name = post.get("Name")
-        content = post.get("Content")
-        post_date = post.get("PostDate")
-        category = post.get("Category")
-            
-        # Wrap everything inside the post container
+# Display job listings
+if jobs:
+    for job in jobs:
+        job_id = job.get("JobId")
+        position = job.get("Position")
+        company_id = job.get("CompanyId")
+        post_date = job.get("PostDate")
+        description = job.get("Description")
+        location = job.get("Location")
+        application_link = job.get("ApplicationLink")
         with st.container():
-            
-            
-            # Post Header: Student Info and Post Category
             st.markdown(
                 f"""
                 <div class="post-container">
                     <div class="post-header">
-                        <span><b>{student_name}</b> </span>
-                        <span>{category}</span>
+                        <span><b>Job Id:{job_id}</b>  <b>Company Id:{company_id}</b></span>
+                        <span><b>Location:</b>{location}</span>
                     </div>
-                    <div style='color: #888; font-size: 14px;'>📅 {post_date}</div>
                     <div class="post-content">
-                        {content}
+                        {description}
                     </div>
-                    
+                    <div class="post-footer">
+                        Posted on {post_date} | 
+                        <a href="{application_link}" target="_blank">Apply Here</a>
+                    </div>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
-            
-            # Action Buttons (like delete, edit etc.)
-            st.markdown("<div class='post-footer'>", unsafe_allow_html=True)
-            delete_button = st.button(f"Delete Post {post_id}", key=f"delete_{post_id}")
-            if delete_button:
-                confirm = st.radio(
-                    "Are you sure you want to delete this post?",
-                    ["No", "Yes"], key=f"confirm_{post_id}")
-                if confirm == "Yes":
-                    response = requests.delete(f"{BASE_URL}/{post_id}")
-                    if response.status_code == 200:
-                        st.success(f"Post {post_id} has been deleted successfully!")
-                    else:
-                        st.error("Failed to delete the post. Please try again.")
-            st.markdown("</div>", unsafe_allow_html=True)
-            
 else:
-    st.write("No posts found.")
+    st.write("No job listings available.")

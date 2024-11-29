@@ -20,7 +20,7 @@ jobListing = Blueprint('joblisting', __name__)
 @jobListing.route('/jobListing', methods=['GET'])
 def get_all_jobListing():
     query = '''
-        SELECT JobId, Position, CompanyId, Department, Description 
+        SELECT JobId, Position, CompanyId, Department, Description,PostDate,ApplicationLink,Location 
         FROM JobListing
     '''
     cursor = db.get_db().cursor()

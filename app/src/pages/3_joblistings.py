@@ -190,7 +190,7 @@ st.button("➕ Add Job Listing", on_click=toggle_job_form)
 if st.session_state["show_job_form"]:
     st.write("### 📝 Create a New Job Listing")
     with st.form(key="create_job", clear_on_submit=True):
-        company_name = st.text_input("Company Name", placeholder="Enter the company name")
+        company_name = st.text_input("Company Id", placeholder="Enter the company Id")
         position = st.text_input("Position", placeholder="Enter the job tipositiontle")
         department = st.text_input("Department", placeholder = "Enter the department")
         description = st.text_area("Job Description", placeholder="Enter a detailed job description")
@@ -201,12 +201,12 @@ if st.session_state["show_job_form"]:
         submit_button = st.form_submit_button("Submit")
         if submit_button:
             job_data = {
-                "company_name": company_name,
-                "position": position,
-                "description": description,
-                "location": location,
-                "posted_date": str(posted_date),
-                "application_link": application_link,
+                "CoompanyId": company_name,
+                "Position": position,
+                "Description": description,
+                "Location": location,
+                "PostDate": str(posted_date),
+                "ApplicationLink": application_link,
             }
             try:
                 response = requests.post(BASE_URL, json=job_data)
@@ -221,20 +221,27 @@ if st.session_state["show_job_form"]:
 # Display job listings
 if jobs:
     for job in jobs:
+        job_id = job.get("JobId")
+        position = job.get("Position")
+        company_id = job.get("CompanyId")
+        post_date = job.get("PostDate")
+        description = job.get("Description")
+        location = job.get("Location")
+        application_link = job.get("ApplicationLink")
         with st.container():
             st.markdown(
                 f"""
-                <div class="job-container">
-                    <div class="job-header">
-                        <span><b>{job['job_title']}</b> at <b>{job['company_name']}</b></span>
-                        <span>{job['location']}</span>
+                <div class="post-container">
+                    <div class="post-header">
+                        <span><b>Job Id:{job_id}</b>  <b>Company Id:{company_id}</b></span>
+                        <span><b>Location:</b>{location}</span>
                     </div>
-                    <div class="job-content">
-                        {job['description']}
+                    <div class="post-content">
+                        {description}
                     </div>
-                    <div class="job-footer">
-                        Posted on {job['posted_date']} | 
-                        <a href="{job['application_link']}" target="_blank">Apply Here</a>
+                    <div class="post-footer">
+                        Posted on {post_date} | 
+                        <a href="{application_link}" target="_blank">Apply Here</a>
                     </div>
                 </div>
                 """,

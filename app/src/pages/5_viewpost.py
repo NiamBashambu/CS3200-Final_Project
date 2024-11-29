@@ -176,46 +176,7 @@ try:
 except ValueError as e:
     st.error(f"Error parsing date: {e}")
 
-# Add a button to add a post
-with st.container():
-    if "show_form" not in st.session_state:
-        st.session_state["show_form"] = False
 
-    def toggle_form():
-        st.session_state["show_form"] = not st.session_state["show_form"]
-
-    # Plus button to toggle form visibility
-    st.button("➕ Create Post", key="toggle_form", on_click=toggle_form, use_container_width=True)
-
-# Display the post creation form if the state is toggled
-if st.session_state["show_form"]:
-    st.write("### ✍️ Create a New Post")
-    with st.form(key="create_post", clear_on_submit=True):
-        # Automatically pre-fill the Student Name field with the logged-in user's name
-        student_name = st.session_state.get("name", "Guest")
-        student_id = st.text_input("Student ID", placeholder="Enter your Student ID")
-        content = st.text_area("Content", placeholder="What's on your mind?")
-        post_date = st.date_input("Post Date", value=datetime.now().date())
-        category = st.text_input("Category", placeholder="Enter a category (e.g., News, Updates)")
-
-        # Pre-fill name field
-        st.text_input("Student Name", value=student_name, disabled=True)
-    
-        submit_button = st.form_submit_button(label="Post", use_container_width=True)
-        if submit_button:
-            post_data = {
-                "StudentId": student_id,
-                "Content": content,
-                "PostDate": str(post_date),
-                "Category": category,
-                "Name": student_name  # Pass the logged-in user's name with the post
-            }
-            response = requests.post(BASE_URL, json=post_data)
-            if response.status_code == 201:
-                st.success("Your post has been created successfully!")
-                st.session_state["show_form"] = False  # Hide form after successful submission
-            else:
-                st.error("Failed to create the post. Please try again.")
 
 # Display posts if available
 if posts:
@@ -248,20 +209,6 @@ if posts:
                 unsafe_allow_html=True,
             )
             
-            # Action Buttons (like delete, edit etc.)
-            st.markdown("<div class='post-footer'>", unsafe_allow_html=True)
-            delete_button = st.button(f"Delete Post {post_id}", key=f"delete_{post_id}")
-            if delete_button:
-                confirm = st.radio(
-                    "Are you sure you want to delete this post?",
-                    ["No", "Yes"], key=f"confirm_{post_id}")
-                if confirm == "Yes":
-                    response = requests.delete(f"{BASE_URL}/{post_id}")
-                    if response.status_code == 200:
-                        st.success(f"Post {post_id} has been deleted successfully!")
-                    else:
-                        st.error("Failed to delete the post. Please try again.")
-            st.markdown("</div>", unsafe_allow_html=True)
             
 else:
     st.write("No posts found.")
