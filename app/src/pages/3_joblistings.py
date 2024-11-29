@@ -190,7 +190,8 @@ st.button("➕ Add Job Listing", on_click=toggle_job_form)
 if st.session_state["show_job_form"]:
     st.write("### 📝 Create a New Job Listing")
     with st.form(key="create_job", clear_on_submit=True):
-        company_name = st.text_input("Company Id", placeholder="Enter the company Id")
+        company_id = st.text_input("Company Id", placeholder="Enter the company Id")
+        job_id = st.text_input("Job ID",placeholder="Enter the job id")
         position = st.text_input("Position", placeholder="Enter the job tipositiontle")
         department = st.text_input("Department", placeholder = "Enter the department")
         description = st.text_area("Job Description", placeholder="Enter a detailed job description")
@@ -198,15 +199,18 @@ if st.session_state["show_job_form"]:
         posted_date = st.date_input("Posted Date", value=datetime.now().date())
         application_link = st.text_input("Application Link", placeholder="Provide a URL for applications")
         
+
         submit_button = st.form_submit_button("Submit")
         if submit_button:
             job_data = {
-                "CoompanyId": company_name,
+                "JobId":job_id,
+                "CompanyId": company_id,
                 "Position": position,
                 "Description": description,
                 "Location": location,
                 "PostDate": str(posted_date),
                 "ApplicationLink": application_link,
+                "Department":department
             }
             try:
                 response = requests.post(BASE_URL, json=job_data)
@@ -228,6 +232,7 @@ if jobs:
         description = job.get("Description")
         location = job.get("Location")
         application_link = job.get("ApplicationLink")
+        department = job.get("Department")
         with st.container():
             st.markdown(
                 f"""

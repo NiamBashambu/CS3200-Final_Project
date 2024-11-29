@@ -37,24 +37,61 @@ def get_all_jobListing():
 # Create a new job listing
 @jobListing.route('/jobListing', methods=['POST'])
 def create_post():
-    data = request.json
-    job_id = data['JobId']
-    position = data['Position']
-    company_id = data['CompanyId']
-    department = data['Department']
-    description = data['Description']
     
-    query = f'''
-        INSERT INTO JobListing (JobId, Position, CompanyId, Department, Description)
-        VALUES ({job_id}, '{position}', '{company_id}', '{department}', '{description})
-    '''
-    cursor = db.get_db().cursor()
-    cursor.execute(query)
-    db.get_db().commit()
-    
-    response = make_response("Job listing created successfully")
-    response.status_code = 201
-    return response
+
+    try:
+        # Parse the incoming JSON data
+        data = request.json
+        job_id = data['JobId']
+        position = data['Position']
+        company_id = data['CompanyId']
+        department = data['Department']
+        description = data['Description']
+        location = data['Location']
+        post_date = data['PostDate']
+        application_link = data['ApplicationLink']
+        
+
+        # Database connection
+        db_conn = db.get_db()
+        cursor = db_conn.cursor()
+
+        # Check if the company exists
+        check_company_query = "SELECT * FROM Company WHERE CompanyId = %s"
+        cursor.execute(check_company_query, (company_id,))
+        company_exists = cursor.fetchone()
+
+        if not company_exists:
+            # Populate the Company table if the company does not exist
+            insert_company_query = '''
+                INSERT INTO Company (CompanyId) Values(%s)
+            '''
+            cursor.execute(insert_company_query, (company_id))
+            db_conn.commit()
+
+        # Insert the job listing
+        insert_job_query = '''
+            INSERT INTO JobListing 
+            (JobId, Position, CompanyId, Department, Description, Location, PostDate, ApplicationLink)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        '''
+        cursor.execute(insert_job_query, (
+            job_id, position, company_id, department, description, location, post_date, application_link
+        ))
+        db_conn.commit()
+
+        response = make_response("Post created successfully", 201)
+        return response
+
+    except KeyError as e:
+        # Handle missing keys in the request data
+        error_message = f"Missing required field: {str(e)}"
+        return jsonify({"error": error_message}), 400
+
+    except Exception as e:
+        # Handle unexpected errors
+        error_message = f"An error occurred: {str(e)}"
+        return jsonify({"error": error_message}), 500
 
 # ------------------------------------------------------------
 # Delete a jobListing by JobId
