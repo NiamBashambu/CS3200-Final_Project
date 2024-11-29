@@ -1,193 +1,121 @@
-import logging
 import streamlit as st
 import requests
 from datetime import datetime
 
-# Set up logging
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+# Base API URL for job listings
+BASE_URL = "http://web-api:4000/p/job-listings"
 
-BASE_URL = "http://web-api:4000/jobs"  # API endpoint for job listings
-
-# Set page layout to wide
-st.set_page_config(layout="wide", page_title="Job Listings", page_icon="💼")
+# Page configuration
+st.set_page_config(page_title="Job Listings", page_icon="💼", layout="wide")
 
 # Custom CSS for styling
 st.markdown(
     """
     <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7fb;
-    }
     .job-container {
         background-color: #ffffff;
         border-radius: 15px;
-        padding: 25px;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease-in-out;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .job-container:hover {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
     .job-header {
-        font-weight: 600;
         font-size: 18px;
-        color: #333;
+        font-weight: bold;
         margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
-    .job-header span {
+    .job-details {
         font-size: 14px;
-        color: #888;
-    }
-    .job-content {
-        font-size: 16px;
         color: #555;
-        line-height: 1.8;
-        margin-bottom: 20px;
-    }
-    .job-footer {
-        font-size: 14px;
-        color: #666;
-        display: flex;
-        justify-content: flex-end;
-    }
-    .add-job-btn {
-        background-color: #28a745;
-        color: white;
-        font-size: 28px;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .add-job-btn:hover {
-        background-color: #218838;
-    }
-    .form-container {
-        background-color: #ffffff;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .form-container input, .form-container textarea {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 20px;
-        border-radius: 10px;
-        border: 1px solid #ddd;
-        font-size: 16px;
-        transition: border-color 0.3s ease;
-    }
-    .form-container input:focus, .form-container textarea:focus {
-        border-color: #007bff;
-        outline: none;
-    }
-    .form-container .submit-btn {
-        background-color: #007bff;
-        color: white;
-        padding: 12px 20px;
-        border-radius: 30px;
-        font-size: 18px;
-        cursor: pointer;
-        border: none;
-        width: 100%;
-    }
-    .form-container .submit-btn:hover {
-        background-color: #0056b3;
+        margin-bottom: 10px;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# Title for the Streamlit app
+# App Title
 st.title("💼 Job Listings")
 
-# Fetch job listings from API
-try:
-    response = requests.get(BASE_URL)
-    jobs = response.json()
-    jobs = sorted(jobs, key=lambda x: datetime.strptime(x["posted_date"], "%Y-%m-%d"), reverse=True)
-except Exception as e:
-    jobs = []
-    st.error(f"Error fetching job listings: {e}")
+# Sidebar
+st.sidebar.header("Navigation")
+st.sidebar.write("Select a page:")
+st.sidebar.button("Job Listings")
 
-# Add a button to add a new job
-if "show_job_form" not in st.session_state:
-    st.session_state["show_job_form"] = False
+# Section: Add a New Job Listing
+st.subheader("Create a New Job Listing")
+with st.form(key="job_form"):
+    company_name = st.text_input("Company Name", placeholder="Enter the company's name")
+    position = st.text_input("Position", placeholder="Enter the job title/position")
+    department = st.text_input("Department", placeholder="Enter the department name")
+    job_description = st.text_area("Job Description", placeholder="Provide a detailed job description")
+    location = st.text_input("Location", placeholder="Enter the job location")
+    application_link = st.text_input("Application Link", placeholder="Provide a link for applications")
+    submit = st.form_submit_button("Post Job")
 
-def toggle_job_form():
-    st.session_state["show_job_form"] = not st.session_state["show_job_form"]
-
-st.button("➕ Add Job Listing", on_click=toggle_job_form)
-
-# Display the job creation form
-if st.session_state["show_job_form"]:
-    st.write("### 📝 Create a New Job Listing")
-    with st.form(key="create_job", clear_on_submit=True):
-        company_name = st.text_input("Company Name", placeholder="Enter the company name")
-        job_title = st.text_input("Job Title", placeholder="Enter the job title")
-        description = st.text_area("Job Description", placeholder="Enter a detailed job description")
-        location = st.text_input("Location", placeholder="Enter the job location")
-        posted_date = st.date_input("Posted Date", value=datetime.now().date())
-        application_link = st.text_input("Application Link", placeholder="Provide a URL for applications")
-        
-        submit_button = st.form_submit_button("Submit")
-        if submit_button:
-            job_data = {
-                "company_name": company_name,
-                "job_title": job_title,
-                "description": description,
-                "location": location,
-                "posted_date": str(posted_date),
-                "application_link": application_link,
+    # If form is submitted
+    if submit:
+        if not company_name or not position or not department or not job_description or not location or not application_link:
+            st.error("Please fill in all required fields.")
+        else:
+            # Payload for the API
+            payload = {
+                "CompanyName": company_name,
+                "Position": position,
+                "Department": department,
+                "Description": job_description,
+                "Location": location,
+                "PostDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "ApplicationLink": application_link,
             }
+
             try:
-                response = requests.post(BASE_URL, json=job_data)
+                # API Call to create a new job listing
+                response = requests.post(BASE_URL, json=payload)
                 if response.status_code == 201:
                     st.success("Job listing created successfully!")
-                    st.session_state["show_job_form"] = False  # Hide form
                 else:
                     st.error(f"Failed to create job listing: {response.text}")
             except Exception as e:
-                st.error(f"Error creating job listing: {e}")
+                st.error(f"An error occurred: {e}")
 
-# Display job listings
-if jobs:
-    for job in jobs:
-        with st.container():
-            st.markdown(
-                f"""
-                <div class="job-container">
-                    <div class="job-header">
-                        <span><b>{job['job_title']}</b> at <b>{job['company_name']}</b></span>
-                        <span>{job['location']}</span>
+# Section: View All Job Listings
+st.subheader("Available Job Listings")
+
+try:
+    # Fetch all job listings from the API
+    job_listings = requests.get(BASE_URL).json()
+
+    if job_listings:
+        for job in job_listings:
+            company_name = job.get("CompanyName")
+            position = job.get("Position")
+            department = job.get("Department")
+            description = job.get("Description")
+            location = job.get("Location")
+            post_date = job.get("PostDate")
+            application_link = job.get("ApplicationLink")
+
+            # Job Listing Card
+            with st.container():
+                st.markdown(
+                    f"""
+                    <div class="job-container">
+                        <div class="job-header">{position}</div>
+                        <div class="job-details">Company: {company_name}</div>
+                        <div class="job-details">Department: {department}</div>
+                        <div class="job-details">Location: {location}</div>
+                        <div class="job-details">Posted on: {post_date}</div>
+                        <div>{description}</div>
+                        <div><a href="{application_link}" target="_blank">Apply Here</a></div>
                     </div>
-                    <div class="job-content">
-                        {job['description']}
-                    </div>
-                    <div class="job-footer">
-                        Posted on {job['posted_date']} | 
-                        <a href="{job['application_link']}" target="_blank">Apply Here</a>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-else:
-    st.write("No job listings available.")
+                    """,
+                    unsafe_allow_html=True,
+                )
+    else:
+        st.write("No job listings available at the moment.")
+except Exception as e:
+    st.error(f"Failed to fetch job listings: {e}")
