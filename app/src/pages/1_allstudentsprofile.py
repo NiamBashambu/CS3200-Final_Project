@@ -72,31 +72,36 @@ st.markdown(
 SideBarLinks()
 
 # Title for the Streamlit app
-st.title("Student Profile")
+st.title("All Student Profiles")
 
 # Fetch Students Automatically from the API
 students = requests.get(BASE_URL).json()
+if "authenticated" in st.session_state and st.session_state["authenticated"]:
+    # Get user data from session state
+    user_name = st.session_state.get('name', 'Guest')
+    advisor_id = st.session_state.get('advisor_id', 'Unknown')  # Ensure StudentId is saved in session state
 
-# Check if students are available
-if students:
+    st.write(f"Hello, {user_name}! 👋 Welcome to your managing Student Profiles page.")
+
+    if students:
     # Create a list to hold student data for the DataFrame
-    student_data = []
+        student_data = []
 
-    for student in students:
-        student_id = student.get("StudentId")
-        student_name = student.get("Name")
-        student_email = student.get("Email")
-        student_YOG = student.get("YOG")
-        student_major = student.get("Major")
+        for student in students:
+            student_id = student.get("StudentId")
+            student_name = student.get("Name")
+            student_email = student.get("Email")
+            student_YOG = student.get("YOG")
+            student_major = student.get("Major")
         
         # Add each student's data to the list
-        student_data.append([student_id, student_name, student_email, student_YOG, student_major])
+            student_data.append([student_id, student_name, student_email, student_YOG, student_major])
 
     # Convert the list of student data into a pandas DataFrame
-    df = pd.DataFrame(student_data, columns=["Student ID", "Name", "Email", "Year of Graduation (YOG)", "Major"])
+        df = pd.DataFrame(student_data, columns=["Student ID", "Name", "Email", "Year of Graduation (YOG)", "Major"])
 
     # Display the students data in a table format
-    st.markdown(
+        st.markdown(
         """
         <div class="student-container">
             <div class="student-header">
@@ -106,6 +111,10 @@ if students:
         """, unsafe_allow_html=True)
     
     # Display the dataframe as a table in Streamlit
-    st.dataframe(df)
+        st.dataframe(df)
+    else:
+        st.write("No students found.")
 else:
-    st.write("No students found.")
+    st.write("You are not authenticated. Please log in to view your profile.")
+
+# Check if students are available
