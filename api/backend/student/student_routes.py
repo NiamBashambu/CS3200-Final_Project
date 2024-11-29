@@ -15,8 +15,8 @@ student = Blueprint('student', __name__)
 @student.route('/student', methods=['GET'])
 def get_all_student():
     query = '''
-        SELECT StudentId, Name, Email, Phone, YOG, Major, Advisor
-        FROM Student
+         SELECT StudentId, Student.Name, Email, Phone, YOG, Major, COA.Name
+        FROM Student JOIN coconnect.CoOpAdvisor COA on Student.Advisor = COA.CoopAdvisorID
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -36,8 +36,8 @@ def get_all_student():
 @student.route('/student/<int:studentId>', methods=['GET'])
 def get_student_information(studentId):
     query = '''
-        SELECT StudentId, Name, Email, Phone, YOG, Major, Advisor
-        FROM Student
+        SELECT StudentId, Student.Name, Email, Phone, YOG, Major, COA.Name
+        FROM Student JOIN coconnect.CoOpAdvisor COA on Student.Advisor = COA.CoopAdvisorID
         WHERE StudentId = %s
     '''
     
@@ -92,8 +92,8 @@ def check_or_create_student():
 
     # Check if the student exists
     query_check = f'''
-        SELECT StudentId, Name, Email, Phone, YOG, Major, Advisor
-        FROM Student
+        SELECT StudentId, Student.Name, Email, Phone, YOG, Major, COA.Name
+        FROM Student JOIN coconnect.CoOpAdvisor COA on Student.Advisor = COA.CoopAdvisorID
         WHERE StudentId = {student_id}
     '''
     cursor = db.get_db().cursor()

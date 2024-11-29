@@ -122,7 +122,7 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
             st.write(f"**Phone:** {student.get('Phone', 'N/A')}")
             st.write(f"**Year of Graduation:** {student.get('YOG', 'N/A')}")
             st.write(f"**Major:** {student.get('Major', 'N/A')}")
-            st.write(f"**Advisor:** {student.get('Advisor', 'N/A')}")
+            st.write(f"**Advisor:** {student.get('COA.Name', 'N/A')}")
         else:
             st.error(f"Error fetching student details: ")
     else:
