@@ -163,7 +163,8 @@ INSERT INTO CoOpAdvisor (Name, Department, Field) VALUES
 ('Advisor_Quincy', 'ME', 'Networking'),
 ('Advisor_Rita', 'Bio', 'Data Science'),
 ('Advisor_Steve', 'CS', 'AI'),
-('Advisor_Tina', 'ECE', 'Robotics');
+('Advisor_Tina', 'ECE', 'Robotics'),
+('Advisor_Mary','CS','Data Science');
 
 -- Students
 INSERT INTO Student (Name, Email, Phone, YOG, Major, Advisor) VALUES
