@@ -7,7 +7,7 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-BASE_URL = "http://web-api:4000/j"
+BASE_URL = "http://web-api:4000/jobs"  # API endpoint for job listings
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="Job Listings", page_icon="💼")
@@ -114,3 +114,80 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# Title for the Streamlit app
+st.title("💼 Job Listings")
+
+# Fetch job listings from API
+try:
+    response = requests.get(BASE_URL)
+    jobs = response.json()
+    jobs = sorted(jobs, key=lambda x: datetime.strptime(x["posted_date"], "%Y-%m-%d"), reverse=True)
+except Exception as e:
+    jobs = []
+    st.error(f"Error fetching job listings: {e}")
+
+# Add a button to add a new job
+if "show_job_form" not in st.session_state:
+    st.session_state["show_job_form"] = False
+
+def toggle_job_form():
+    st.session_state["show_job_form"] = not st.session_state["show_job_form"]
+
+st.button("➕ Add Job Listing", on_click=toggle_job_form)
+
+# Display the job creation form
+if st.session_state["show_job_form"]:
+    st.write("### 📝 Create a New Job Listing")
+    with st.form(key="create_job", clear_on_submit=True):
+        company_name = st.text_input("Company Name", placeholder="Enter the company name")
+        job_title = st.text_input("Job Title", placeholder="Enter the job title")
+        description = st.text_area("Job Description", placeholder="Enter a detailed job description")
+        location = st.text_input("Location", placeholder="Enter the job location")
+        posted_date = st.date_input("Posted Date", value=datetime.now().date())
+        application_link = st.text_input("Application Link", placeholder="Provide a URL for applications")
+        
+        submit_button = st.form_submit_button("Submit")
+        if submit_button:
+            job_data = {
+                "company_name": company_name,
+                "job_title": job_title,
+                "description": description,
+                "location": location,
+                "posted_date": str(posted_date),
+                "application_link": application_link,
+            }
+            try:
+                response = requests.post(BASE_URL, json=job_data)
+                if response.status_code == 201:
+                    st.success("Job listing created successfully!")
+                    st.session_state["show_job_form"] = False  # Hide form
+                else:
+                    st.error(f"Failed to create job listing: {response.text}")
+            except Exception as e:
+                st.error(f"Error creating job listing: {e}")
+
+# Display job listings
+if jobs:
+    for job in jobs:
+        with st.container():
+            st.markdown(
+                f"""
+                <div class="job-container">
+                    <div class="job-header">
+                        <span><b>{job['job_title']}</b> at <b>{job['company_name']}</b></span>
+                        <span>{job['location']}</span>
+                    </div>
+                    <div class="job-content">
+                        {job['description']}
+                    </div>
+                    <div class="job-footer">
+                        Posted on {job['posted_date']} | 
+                        <a href="{job['application_link']}" target="_blank">Apply Here</a>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+else:
+    st.write("No job listings available.")
