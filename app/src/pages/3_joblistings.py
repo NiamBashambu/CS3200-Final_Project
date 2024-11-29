@@ -171,83 +171,76 @@ if st.session_state.get("authenticated"):
     st.write(f"Hello, {user_name}! 👋 Welcome to the Post Feed")
 
 # Fetch Job Listings Automatically from API
-jobListing = requests.get(BASE_URL).json()
 try:
-    jobListing = sorted(jobListing, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
-except ValueError as e:
-    st.error(f"Error parsing date: {e}")
+    response = requests.get(BASE_URL)
+    jobs = response.json()
+    jobs = sorted(jobs, key=lambda x: datetime.strptime(x["posted_date"], "%Y-%m-%d"), reverse=True)
+except Exception as e:
+    jobs = []
+    st.error(f"Error fetching job listings: {e}")
 
-# Add a New Job Listing
-st.subheader("Create a New Job Listing")
-with st.form(key="job_form"):
-    company_name = st.text_input("Company Name", placeholder="Enter the company's name")
-    position = st.text_input("Position", placeholder="Enter the job title/position")
-    department = st.text_input("Department", placeholder="Enter the department name")
-    job_description = st.text_area("Job Description", placeholder="Provide a detailed job description")
-    location = st.text_input("Location", placeholder="Enter the job location")
-    application_link = st.text_input("Application Link", placeholder="Provide a link for applications")
-    submit = st.form_submit_button("Post Job")
+# Add a button to add a new job
+if "show_job_form" not in st.session_state:
+    st.session_state["show_job_form"] = False
 
-    # If form is submitted
-    if submit:
-        if not company_name or not position or not department or not job_description or not location or not application_link:
-            st.error("Please fill in all required fields.")
-        else:
-            # Payload for the API
-            payload = {
-                "CompanyName": company_name,
-                "Position": position,
-                "Department": department,
-                "Description": job_description,
-                "Location": location,
-                "PostDate": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "ApplicationLink": application_link,
+def toggle_job_form():
+    st.session_state["show_job_form"] = not st.session_state["show_job_form"]
+
+st.button("➕ Add Job Listing", on_click=toggle_job_form)
+
+# Display the job creation form
+if st.session_state["show_job_form"]:
+    st.write("### 📝 Create a New Job Listing")
+    with st.form(key="create_job", clear_on_submit=True):
+        company_name = st.text_input("Company Name", placeholder="Enter the company name")
+        position = st.text_input("Position", placeholder="Enter the job tipositiontle")
+        department = st.text_input("Department", placeholder = "Enter the department")
+        description = st.text_area("Job Description", placeholder="Enter a detailed job description")
+        location = st.text_input("Location", placeholder="Enter the job location")
+        posted_date = st.date_input("Posted Date", value=datetime.now().date())
+        application_link = st.text_input("Application Link", placeholder="Provide a URL for applications")
+        
+        submit_button = st.form_submit_button("Submit")
+        if submit_button:
+            job_data = {
+                "company_name": company_name,
+                "position": position,
+                "description": description,
+                "location": location,
+                "posted_date": str(posted_date),
+                "application_link": application_link,
             }
-
             try:
-                # API Call to create a new job listing
-                response = requests.post(BASE_URL, json=payload)
+                response = requests.post(BASE_URL, json=job_data)
                 if response.status_code == 201:
                     st.success("Job listing created successfully!")
+                    st.session_state["show_job_form"] = False  # Hide form
                 else:
                     st.error(f"Failed to create job listing: {response.text}")
             except Exception as e:
-                st.error(f"An error occurred: {e}")
+                st.error(f"Error creating job listing: {e}")
 
-# View All Job Listings
-st.subheader("Available Job Listings")
-
-try:
-    # Fetch all job listings from the API
-    job_listings = requests.get(BASE_URL).json()
-
-    if job_listings:
-        for job in job_listings:
-            company_name = job.get("CompanyName")
-            position = job.get("Position")
-            department = job.get("Department")
-            description = job.get("Description")
-            location = job.get("Location")
-            post_date = job.get("PostDate")
-            application_link = job.get("ApplicationLink")
-
-            # Job Listing Card
-            with st.container():
-                st.markdown(
-                    f"""
-                    <div class="job-container">
-                        <div class="job-header">{position}</div>
-                        <div class="job-details">Company: {company_name}</div>
-                        <div class="job-details">Department: {department}</div>
-                        <div class="job-details">Location: {location}</div>
-                        <div class="job-details">Posted on: {post_date}</div>
-                        <div>{description}</div>
-                        <div><a href="{application_link}" target="_blank">Apply Here</a></div>
+# Display job listings
+if jobs:
+    for job in jobs:
+        with st.container():
+            st.markdown(
+                f"""
+                <div class="job-container">
+                    <div class="job-header">
+                        <span><b>{job['job_title']}</b> at <b>{job['company_name']}</b></span>
+                        <span>{job['location']}</span>
                     </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-    else:
-        st.write("No job listings available at the moment.")
-except Exception as e:
-    st.error(f"Failed to fetch job listings: {e}")
+                    <div class="job-content">
+                        {job['description']}
+                    </div>
+                    <div class="job-footer">
+                        Posted on {job['posted_date']} | 
+                        <a href="{job['application_link']}" target="_blank">Apply Here</a>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+else:
+    st.write("No job listings available.")
