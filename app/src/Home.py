@@ -63,7 +63,7 @@ if st.button('Act as Olivia Garcia, a student searching for a COOP',
     st.session_state['role'] = 'student_searching'
     st.session_state['name'] = 'Olivia Garcia'
     st.session_state['student_id'] = 51
-    st.switch_page('pages/0_post.py')
+    st.switch_page('pages/2_studentprofile.py')
 
 if st.button('Act as Will Jones, a student exploring different fields', 
             type = 'primary', 
@@ -79,7 +79,7 @@ if st.button('Act as Mary Smith, a COOP advisor ',type = 'primary',use_container
         st.session_state['role']  = 'advisor'
         st.session_state['name'] = 'Mary'
         st.session_state['advisor_id'] = 47
-        st.switch_page('pages/1_allstudentsprofile.py')
+        st.switch_page('pages/6_advisorprofile.py')
 
 
 
