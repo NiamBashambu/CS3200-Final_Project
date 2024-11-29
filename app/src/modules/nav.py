@@ -59,8 +59,12 @@ def SideBarLinks(show_home=True):
 
         if st.session_state["role"] == "student_exploring":
             st.sidebar.page_link(
+                "pages/4_viewjoblistings.py", label="Job Listing", icon="📚"
+            )
+            st.sidebar.page_link(
                 "pages/5_viewpost.py", label="Posts", icon="📧"
             )
+            
         
         if st.session_state["role"] == "advisor":
             st.sidebar.page_link(

@@ -195,8 +195,8 @@ if jobs:
                 f"""
                 <div class="post-container">
                     <div class="post-header">
-                        <span><b>Postion: {position}</b>  <b>Company: {company_name}</b></span>
-                        <span><b>Location:</b>{location}</span>
+                        <span><b>Postion: {position}</b> | <b>Company: {company_name}</b></span>
+                        <span><b>Location: </b>{location}</span>
                     </div>
                     <div class="post-content">
                         {description}
