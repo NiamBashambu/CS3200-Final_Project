@@ -1,6 +1,12 @@
+import logging
 import streamlit as st
 import requests
 from datetime import datetime
+from modules.nav import SideBarLinks
+
+# Set up logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 # Base API URL for job listings
 BASE_URL = "http://web-api:4000/p/job-listings"
