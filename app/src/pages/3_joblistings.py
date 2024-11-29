@@ -160,7 +160,7 @@ st.markdown(
 # Sidebar links (if any)
 SideBarLinks()
 
-# App Title
+# Title for Streamlit
 st.markdown("<div class='header-container'>", unsafe_allow_html=True)
 st.title("💼 Job Listings")
 st.markdown("</div>", unsafe_allow_html=True)
@@ -171,9 +171,9 @@ if st.session_state.get("authenticated"):
     st.write(f"Hello, {user_name}! 👋 Welcome to the Post Feed")
 
 # Fetch Job Listings Automatically from API
-posts = requests.get(BASE_URL).json()
+jobListing = requests.get(BASE_URL).json()
 try:
-    posts = sorted(posts, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
+    jobListing = sorted(jobListing, key=lambda x: datetime.strptime(x["PostDate"], "%a, %d %b %Y %H:%M:%S %Z"), reverse=True)
 except ValueError as e:
     st.error(f"Error parsing date: {e}")
 
