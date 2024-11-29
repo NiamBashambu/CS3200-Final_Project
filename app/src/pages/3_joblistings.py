@@ -245,8 +245,7 @@ if jobs:
                         {description}
                     </div>
                     <div class="post-footer">
-                        Posted on {post_date} | 
-                        <a href="{application_link}" target="_blank">Apply Here</a>
+                        Posted on {post_date} 
                     </div>
                 </div>
                 """,
