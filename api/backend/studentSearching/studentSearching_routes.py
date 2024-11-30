@@ -28,7 +28,7 @@ def get_all_student_employment():
 
 # ------------------------------------------------------------
 # Updates the employment status of a student
-@studentSearching.route('/resume/<int:studentId>/<employmentStatus>', methods=['PUT'])
+@studentSearching.route('/studentSearching/<int:studentId>', methods=['PUT'])
 def update_employment(studentId, status):
     query = f'''
         UPDATE StudentSearching
@@ -36,9 +36,9 @@ def update_employment(studentId, status):
         WHERE StudentId = {studentId}
     '''
     cursor = db.get_db().cursor()
-    cursor.execute(query)
-    theData = cursor.fetchall()
+    cursor.execute(query, (studentId, status))
+    cursor.commit()
     
-    response = make_response(jsonify(theData))
+    response = make_response("Employment status updated successfully")
     response.status_code = 200
     return response
