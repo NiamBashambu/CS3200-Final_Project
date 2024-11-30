@@ -49,6 +49,9 @@ def SideBarLinks(show_home=True):
             st.sidebar.page_link(
                 "pages/10_employerprofile.py", label="Profile", icon="👤"
             )
+            st.sidebar.page_link(
+                "pages/1_allstudentsprofile.py", label="Student Profiles", icon="🏫"
+            )
 
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "student_searching":
