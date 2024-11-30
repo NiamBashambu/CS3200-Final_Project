@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 BASE_URL = "http://web-api:4000/t/studentSearching/"
+BASE_URL2 = "http://web-api:4000/s/student/"
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="Post Feed", page_icon="💬")
@@ -174,6 +175,11 @@ if st.session_state.get("authenticated"):
 # Employment status options
     employment_status_options = ['Employed', 'Searching', 'Not Searching']
     
+    student = requests.get(f"{BASE_URL2}/{student_id}").json()
+    if student:
+        st.write(f"**Employed Status:** {student.get('EmployStatus', 'N/A')}")
+    else:
+        st.error(f"Error fetching student details: ")
     # Form for employment status update
     with st.form(key="employment_status_form"):
         # Select the current employment status
