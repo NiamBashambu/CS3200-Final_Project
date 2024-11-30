@@ -84,21 +84,39 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
     st.write(f"Hello, {user_name}! 👋 Welcome to your managing Student Profiles page.")
 
     if students:
-    # Create a list to hold student data for the DataFrame
+        # get a list of all majors
+        majors = list(set(student.get("Major") for student in students))
+        statuses = ['Employed', 'Searching', 'Not Searching']
+
+        filter_major = st.selectbox("Filter by Major", ["All Majors"] + majors)
+        filter_status = st.selectbox("Filter by Employment Status", ["All Statuses"] + statuses)
+
+        # initialize filtering, return all students if no filtering
+        filtered_students = students
+        
+        if filter_major != "All Majors":
+            filtered_students = [student for student in filtered_students if student.get("Major") == filter_major]
+        
+        if filter_status != "All Statuses":
+            filtered_students = [student for student in filtered_students if student.get("EmployStatus") == filter_status]  
+
+        # Create a list to hold student data for the DataFrame
         student_data = []
 
-        for student in students:
+        for student in filtered_students:
             student_id = student.get("StudentId")
             student_name = student.get("Name")
             student_email = student.get("Email")
             student_YOG = student.get("YOG")
             student_major = student.get("Major")
+            student_status = student.get('EmployStatus')
         
         # Add each student's data to the list
-            student_data.append([student_id, student_name, student_email, student_YOG, student_major])
+            student_data.append([student_id, student_name, student_email, student_YOG, student_major, student_status])
 
     # Convert the list of student data into a pandas DataFrame
-        df = pd.DataFrame(student_data, columns=["Student ID", "Name", "Email", "Year of Graduation (YOG)", "Major"])
+        df = pd.DataFrame(student_data, columns=["Student ID", "Name", "Email", "Year of Graduation (YOG)", "Major", 'Employment Status'])
+        df.index = df.index + 1
 
     # Display the students data in a table format
         st.markdown(
@@ -117,4 +135,4 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
 else:
     st.write("You are not authenticated. Please log in to view your profile.")
 
-# Check if students are available
+

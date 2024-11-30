@@ -168,7 +168,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 # Display users first name if authenticated
 if st.session_state.get("authenticated"):
     user_name = st.session_state.get('name', 'Guest')
-    st.write(f"Hello, {user_name}! 👋 Welcome to the JobListing Feed")
+    st.write(f"Hello, {user_name}! 👋 Welcome to the Job Listing Feed")
 
 # Fetch Job Listings Automatically from API
 jobs = requests.get(BASE_URL).json()
