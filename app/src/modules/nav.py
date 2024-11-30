@@ -90,8 +90,15 @@ def SideBarLinks(show_home=True):
                 "pages/1_allstudentsprofile.py", label="All Students", icon="🏫"
             )
             st.sidebar.page_link(
+                "pages/4_viewjoblistings.py", label="Job Listing", icon="📚"
+            )
+            st.sidebar.page_link(
+                "pages/9_allresumes.py", label="Student Resumes", icon="📝"
+            )
+            st.sidebar.page_link(
                 "pages/6_advisorprofile.py", label="Profile", icon="👤"
             )
+
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()

@@ -15,13 +15,13 @@ resume = Blueprint('resume', __name__)
 @resume.route('/resume', methods=['GET'])
 def get_all_resume():
     query = '''
-        SELECT ResumeId, StudentId, Content, LastUpdated 
-        FROM Resume
+        SELECT ResumeId, S.Name, StudentId, Content, LastUpdated 
+        FROM Resume R
+        JOIN Student S ON S.StudentId = R.StudentId
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
-
     
     response = make_response(jsonify(theData))
     response.status_code = 200
