@@ -47,7 +47,7 @@ try:
     resumes = requests.get(BASE_URL)
     resumes.raise_for_status()
     resumes = resumes.json()
-    resumes = sorted(resumes, key=lambda x: datetime.strptime(x.get("LastUpdated"), "%Y-%m-%d"))
+    resumes = sorted(resumes, key=lambda x: datetime.strptime(x["LastUpdated"], "%a, %d %b %Y %H:%M:%S %Z"))
 
 
 except Exception as e:

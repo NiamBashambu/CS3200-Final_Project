@@ -15,7 +15,7 @@ resume = Blueprint('resume', __name__)
 @resume.route('/resume', methods=['GET'])
 def get_all_resume():
     query = '''
-        SELECT ResumeId, S.Name, StudentId, Content, LastUpdated 
+        SELECT ResumeId, S.Name, S.StudentId, Content, LastUpdated 
         FROM Resume R
         JOIN Student S ON S.StudentId = R.StudentId
     '''
