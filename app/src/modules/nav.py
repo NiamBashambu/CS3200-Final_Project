@@ -47,20 +47,22 @@ def SideBarLinks(show_home=True):
                 "pages/5_viewpost.py", label="Posts", icon="📧"
             )
             st.sidebar.page_link(
-                "pages/10_employerprofile.py", label="Profile", icon="👤"
-            )
-            st.sidebar.page_link(
                 "pages/1_allstudentsprofile.py", label="Student Profiles", icon="🏫"
             )
+            st.sidebar.page_link(
+                "pages/10_employerprofile.py", label="Profile", icon="👤"
+            )
+            
 
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "student_searching":
             st.sidebar.page_link(
-                "pages/0_post.py", label="Posts", icon="📧"
-            )
-            st.sidebar.page_link(
                 "pages/4_viewjoblistings.py", label="Job Listing", icon="📚"
             )
+            st.sidebar.page_link(
+                "pages/0_post.py", label="Posts", icon="📧"
+            )
+            
             st.sidebar.page_link(
                 "pages/7_employmentstatus.py", label="Employment Status", icon="💼"
             )
@@ -86,6 +88,12 @@ def SideBarLinks(show_home=True):
             
         
         if st.session_state["role"] == "advisor":
+            st.sidebar.page_link(
+                "pages/4_viewjoblistings.py", label="Job Listing", icon="📚"
+            )
+            st.sidebar.page_link(
+                "pages/5_viewpost.py", label="Posts", icon="📧"
+            )
             st.sidebar.page_link(
                 "pages/1_allstudentsprofile.py", label="All Students", icon="🏫"
             )
