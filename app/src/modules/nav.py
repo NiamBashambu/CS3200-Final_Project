@@ -81,7 +81,7 @@ def SideBarLinks(show_home=True):
                 "pages/7_employmentstatus.py", label="Employment Status", icon="💼"
             )
             st.sidebar.page_link(
-                "pages/2_studentprofile.py", label="Profile", icon="👤"
+                "pages/8_exploringstudent.py", label="Profile", icon="👤"
             )
             
         
