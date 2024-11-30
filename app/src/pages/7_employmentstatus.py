@@ -8,7 +8,7 @@ from modules.nav import SideBarLinks
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-BASE_URL = "http://web-api:4000/t/studentSearching/<studentId>"
+BASE_URL = "http://web-api:4000/t/studentSearching/"
 
 # Set page layout to wide
 st.set_page_config(layout="wide", page_title="Post Feed", page_icon="💬")
@@ -167,6 +167,8 @@ st.markdown("</div>", unsafe_allow_html=True)
 # Display the user's first name if authenticated
 if st.session_state.get("authenticated"):
     user_name = st.session_state.get('name', 'Guest')
+    student_id = st.session_state.get('student_id', 'Unknown')  # Ensure StudentId is saved in session state
+
     st.markdown(f"Hello, {user_name} 👋")
 
 # Employment status options
@@ -183,12 +185,12 @@ if st.session_state.get("authenticated"):
         # If the form is submitted
         if submit_button:
             # Make an API request to update the employment status
-            response = requests.put(f"{BASE_URL}/{st.session_state.get('studentId')}", json={"employmentStatus": current_status})
+            response = requests.put(f"{BASE_URL}/{student_id}", json={"employmentStatus": current_status})
 
             if response.status_code == 200:
                 st.success("Your employment status has been updated successfully!")
             else:
-                st.error(f"Error: {response.status_code} - {response.text}")
+                st.error(f"Error: {response.status_code} - {response.text or 'Unknown error'}")
 
 else:
     st.error("You need to be logged in to update your employment status.")
