@@ -284,7 +284,9 @@ INSERT INTO Resume (StudentId, Content, LastUpdated) VALUES
 (47, 'Resume content for Sebastian Taylor', '2026-12-10'),
 (48, 'Resume content for Maya Walker', '2027-01-05'),
 (49, 'Resume content for Jacob Collins', '2024-08-20'),
-(50, 'Resume content for Charlotte White', '2025-11-25');
+(50, 'Resume content for Charlotte White', '2025-11-25'),
+(51, 'Resume content for Olivia Garcia', '2027-01-05'),
+(52, 'Resume content for Will Jones', '2024-08-20');
 
 -- Student Searching
 INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus) VALUES
@@ -337,7 +339,9 @@ INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus) VALUES
 (47, 47, 'Searching'),
 (48, 48, 'Employed'),
 (49, 49, 'Searching'),
-(50, 50, 'Not Searching');
+(50, 50, 'Not Searching'),
+(51, 51, 'Employed'),
+(52, 52, 'Searching');
 
 -- Student Exploring Fields
 INSERT INTO StudentExploringFields (StudentId, Interest) VALUES

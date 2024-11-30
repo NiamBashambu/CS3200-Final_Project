@@ -11,23 +11,33 @@ from backend.db_connection import db
 student = Blueprint('student', __name__)
 
 # ------------------------------------------------------------
-# Gets list of all students
 @student.route('/student', methods=['GET'])
 def get_all_student():
     query = '''
-         SELECT StudentId, Student.Name, Email, Phone, YOG, Major, COA.Name
-        FROM Student JOIN coconnect.CoOpAdvisor COA on Student.Advisor = COA.CoopAdvisorID
+        SELECT 
+            Student.StudentId, 
+            Student.Name, 
+            Student.Email, 
+            Student.Phone, 
+            Student.YOG, 
+            Student.Major, 
+            COA.Name, 
+            SS.EmployStatus
+        FROM 
+            Student
+        JOIN 
+            coconnect.CoOpAdvisor COA 
+            ON Student.Advisor = COA.CoopAdvisorID
+        LEFT JOIN 
+            coconnect.StudentSearching SS 
+            ON Student.StudentId = SS.StudentId
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
     theData = cursor.fetchall()
     current_app.logger.info(f'GET /student Result of query = {theData}')
 
-
-    
     response = make_response(jsonify(theData))
-    
-
     response.status_code = 200
     return response
 
@@ -36,9 +46,24 @@ def get_all_student():
 @student.route('/student/<int:studentId>', methods=['GET'])
 def get_student_information(studentId):
     query = '''
-        SELECT StudentId, Student.Name, Email, Phone, YOG, Major, COA.Name
-        FROM Student JOIN coconnect.CoOpAdvisor COA on Student.Advisor = COA.CoopAdvisorID
-        WHERE StudentId = %s
+        SELECT 
+            Student.StudentId, 
+            Student.Name, 
+            Student.Email, 
+            Student.Phone, 
+            Student.YOG, 
+            Student.Major, 
+            COA.Name, 
+            SS.EmployStatus
+        FROM 
+            Student
+        JOIN 
+            coconnect.CoOpAdvisor COA 
+            ON Student.Advisor = COA.CoopAdvisorID
+        LEFT JOIN 
+            coconnect.StudentSearching SS 
+            ON Student.StudentId = SS.StudentId
+        WHERE Student.StudentId = %s
     '''
     
     try:
