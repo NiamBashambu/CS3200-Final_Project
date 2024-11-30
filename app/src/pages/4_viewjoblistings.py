@@ -202,11 +202,10 @@ if jobs:
                         {description}
                     </div>
                     <div class="post-footer">
-                        Posted on {post_date} 
+                        Posted on {post_date} |
+                         <a href="{application_link}" target="_blank">Apply Here</a>
                     </div>
-                    <div class="application-link">
-                        <a href="{application_link}" target="_blank">Apply Here</a>
-                    </div>
+                    
                 </div>
                 """,
                 unsafe_allow_html=True,
