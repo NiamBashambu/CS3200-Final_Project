@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 BASE_URL = "http://web-api:4000/r/resume"
 
 # Set page layout to wide
-st.set_page_config(layout="wide", page_title="Upload Resume", page_icon="📝")
+st.set_page_config(layout="wide", page_title="Upload/Update Resume", page_icon="📝")
 
 # Custom CSS for fancy styling
 st.markdown(
@@ -226,7 +226,7 @@ with st.container():
 
 # Display the resume creation form if the state is toggled
 if st.session_state["show_form"]:
-    st.write("### ✍️ Upload your resume")
+    st.write("### ✍️ Upload/Update your resume")
     with st.form(key="upload_resume", clear_on_submit=True):
         # Automatically pre-fill the Student Name and ID field with the logged-in info
         student_id = st.session_state.get('student_id', 'Unknown')
@@ -234,7 +234,7 @@ if st.session_state["show_form"]:
         lastupdated = st.date_input("Last Updated", value=datetime.now().date())
         lastupdated = lastupdated.strftime('%Y-%m-%d')
     
-        submit = st.form_submit_button(label="Upload Resume", use_container_width=True)
+        submit = st.form_submit_button(label="Upload/Update Resume", use_container_width=True)
         
         if submit:
             upload_resume = {
