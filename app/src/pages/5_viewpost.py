@@ -187,21 +187,12 @@ if posts:
 
     with st.expander('Filter posts by type, how recent, likes'):
         filtered_type = st.multiselect("Filter by post type", post_types, default=[])
-        filter_date = st.multiselect("Filter by date posted", dates, default=[])
-        if filter_date == 'Today':
-            filter_date = date.today()
-        elif filter_date == 'Last 7 Days':
-            filter_date = date.today() - timedelta(7)
-        else:
-            filter_date = date.today() - timedelta(30)
+      
 
         # filter_top = st.text_input('filter by number of posts by likes')
     
     if filtered_type:
             filtered_posts = [post for post in filtered_posts if post.get("Category") in filtered_type]
-
-    if filter_date:
-            filtered_posts = [post for post in filtered_posts if datetime.strptime(post.get("PostDate"), "%a, %d %b %Y %H:%M:%S %Z").date() <= filter_date]
 
     # if filter_top:
     #     try:
