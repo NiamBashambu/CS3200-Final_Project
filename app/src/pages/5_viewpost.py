@@ -182,10 +182,9 @@ filtered_posts = posts
 if posts:
 
     post_types = list(set(post.get("Category") for post in posts))
-    dates = ['Today', 'Last 7 Days', 'Last 30 Days']
     # top = ['Top 10', 'Top 15', 'Top 25','Top 50']
 
-    with st.expander('Filter posts by type, how recent, likes'):
+    with st.expander('Filter posts by type'):
         filtered_type = st.multiselect("Filter by post type", post_types, default=[])
       
 
