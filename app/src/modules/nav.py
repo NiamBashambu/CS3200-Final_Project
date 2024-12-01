@@ -50,6 +50,9 @@ def SideBarLinks(show_home=True):
                 "pages/1_allstudentsprofile.py", label="Student Profiles", icon="🏫"
             )
             st.sidebar.page_link(
+                "pages/9_allresumes.py", label="Student Resumes", icon="📝"
+            )
+            st.sidebar.page_link(
                 "pages/10_employerprofile.py", label="Profile", icon="👤"
             ) 
             
@@ -67,6 +70,9 @@ def SideBarLinks(show_home=True):
                 "pages/7_employmentstatus.py", label="Employment Status", icon="💼"
             )
             st.sidebar.page_link(
+                "pages/11_uploadresume.py", label="Upload Resume", icon="📝"
+            )
+            st.sidebar.page_link(
                 "pages/2_studentprofile.py", label="Profile", icon="👤"
             )
             
@@ -81,6 +87,9 @@ def SideBarLinks(show_home=True):
             )
             st.sidebar.page_link(
                 "pages/7_employmentstatus.py", label="Employment Status", icon="💼"
+            )
+            st.sidebar.page_link(
+                "pages/11_uploadresume.py", label="Upload Resume", icon="📝"
             )
             st.sidebar.page_link(
                 "pages/8_exploringstudent.py", label="Profile", icon="👤"

@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 BASE_URL = "http://web-api:4000/r/resume"
 
 # Page configuration
-st.set_page_config(layout="wide", page_title="Job Listings", page_icon="💼")
+st.set_page_config(layout="wide", page_title="Student Resumes", page_icon="📝")
 
 # Custom CSS for global styling
 st.markdown(
