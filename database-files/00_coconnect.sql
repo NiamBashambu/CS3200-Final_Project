@@ -285,8 +285,7 @@ INSERT INTO Resume (StudentId, Content, LastUpdated) VALUES
 (48, 'Resume content for Maya Walker', '2027-01-05'),
 (49, 'Resume content for Jacob Collins', '2024-08-20'),
 (50, 'Resume content for Charlotte White', '2025-11-25'),
-(51, 'Resume content for Olivia Garcia', '2027-01-05'),
-(52, 'Resume content for Will Jones', '2024-08-20');
+(51, 'Resume content for Olivia Garcia', '2027-01-05');
 
 -- Student Searching
 INSERT INTO StudentSearching (StudentId, ResumeId, EmployStatus) VALUES

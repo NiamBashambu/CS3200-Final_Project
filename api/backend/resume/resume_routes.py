@@ -72,3 +72,43 @@ def update_resume(resumeId):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+
+# ------------------------------------------------------------
+# Creates a resume for a student
+@resume.route('/resume/<int:studentId>', methods=['POST'])
+def create_resume(studentId):
+    try:
+        # Parse the incoming JSON data
+        data = request.json
+        content = data.get('Content')
+        lastupdated = data.get('LastUpdated')
+
+        # Connect to database
+        cursor = db.get_db().cursor()
+
+        # Add to Resume table
+        query = '''
+            INSERT INTO Resume (StudentId, Content, LastUpdated)
+            VALUES (%s, %s, %s)
+        '''
+
+        cursor.execute(query, (studentId, content, lastupdated))
+        db.get_db().commit()
+
+        resume_id = cursor.lastrowid
+
+        return jsonify({'ResumeId': resume_id, 
+                        'message': 'Resume created successfully'}), 200
+    
+    except KeyError as e:
+        # Handle missing keys in the request data
+        error_message = f"Missing required field: {str(e)}"
+        return jsonify({"error": error_message}), 400
+
+    except Exception as e:
+        # Handle unexpected errors
+        error_message = f"An error occurred: {str(e)}"
+        return jsonify({"error": error_message}), 500
+
+
+    

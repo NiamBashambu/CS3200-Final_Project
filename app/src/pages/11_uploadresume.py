@@ -174,11 +174,12 @@ if st.session_state.get("authenticated"):
 # Check if student already has an existing resume
 try:
     resume = requests.get(f'{BASE_URL}/{student_id}').json()
-    if resume:
+    if resume and resume.get('Content'):
         st.write('Current Resume:')
     else:
         # no resume associated with student
         st.write('No existing resume found. Upload one here!')
+        resume = None
 
 except ValueError as e:
     st.error(f"Error fetching resume: {e}")
@@ -223,7 +224,7 @@ with st.container():
     # Plus button to toggle form visibility
     st.button("➕ Upload/Update Resume", key="toggle_form", on_click=toggle_form, use_container_width=True)
 
-# Display the post creation form if the state is toggled
+# Display the resume creation form if the state is toggled
 if st.session_state["show_form"]:
     st.write("### ✍️ Upload your resume")
     with st.form(key="upload_resume", clear_on_submit=True):
@@ -231,25 +232,91 @@ if st.session_state["show_form"]:
         student_id = st.session_state.get('student_id', 'Unknown')
         content = st.text_area("Content", placeholder="Resume goes here")
         lastupdated = st.date_input("Last Updated", value=datetime.now().date())
+        lastupdated = lastupdated.strftime('%Y-%m-%d')
     
         submit = st.form_submit_button(label="Upload Resume", use_container_width=True)
         
         if submit:
             upload_resume = {
-                "ResumeId": resume_id,
                 "Content": content,
-                'LastUpdated': str(lastupdated)
+                'LastUpdated': lastupdated
             }
 
-            if resume:
+            if resume != None:
                 try:
                     response = requests.put(f'{BASE_URL}/{resume_id}', json = upload_resume)
                     if response.status_code == 200:
                         st.success("Resume updated successfully!")
+
+                        # Refetch the updated resume data
+                        resume = requests.get(f'{BASE_URL}/{student_id}').json()
+
+                        name = resume.get("Name")
+                        student_id = student_id
+                        resume_id = resume_id
+                        content = content
+                        lastupdated = lastupdated
+    
+                        st.markdown(
+                            f"""
+                            <div style="background-color: #ffffff; border-radius: 15px; padding: 25px; margin-bottom: 30px;
+                                        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);">
+                                <div style="font-weight: 600; font-size: 18px; color: #333; margin-bottom: 10px;
+                                            display: flex; justify-content: space-between; align-items: center;">
+                                    <span><b>Name: {name}</b> | <b>Student ID: {student_id}</b></span>
+                                </div>
+                                <div style="font-size: 16px; color: #555; line-height: 1.8; margin-bottom: 20px;">
+                                    {content}
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                                    Updated on {lastupdated}
+                                </div>
+                            </div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
                     else:
                         st.error(f"Failed to update resume: {response.text}")
                 except Exception as e:
                     st.error(f"Error updating resume: {e}")
+
+            else:
+                try:
+                    response = requests.post(f'{BASE_URL}/{student_id}', json = upload_resume)
+                    if response.status_code == 200:
+                        st.success("Resume uploaded successfully!")
+
+                        # Refetch the updated resume data
+                        resume = requests.get(f'{BASE_URL}/{student_id}').json()
+
+                        name = resume.get("Name")
+                        student_id = student_id
+                        content = content
+                        lastupdated = lastupdated
+    
+                        st.markdown(
+                            f"""
+                            <div style="background-color: #ffffff; border-radius: 15px; padding: 25px; margin-bottom: 30px;
+                                        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);">
+                                <div style="font-weight: 600; font-size: 18px; color: #333; margin-bottom: 10px;
+                                            display: flex; justify-content: space-between; align-items: center;">
+                                    <span><b>Name: {name}</b> | <b>Student ID: {student_id}</b></span>
+                                </div>
+                                <div style="font-size: 16px; color: #555; line-height: 1.8; margin-bottom: 20px;">
+                                    {content}
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                                    Updated on {lastupdated}
+                                </div>
+                            </div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+                    else:
+                        st.error(f"Failed to upload resume: {response.text}")
+                except Exception as e:
+                    st.error(f"Error upload resume: {e}")
+
 
             
 
