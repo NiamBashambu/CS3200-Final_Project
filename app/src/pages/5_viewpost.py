@@ -1,7 +1,7 @@
 import logging
 import streamlit as st
 import requests
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from modules.nav import SideBarLinks
 
 # Set up logging
@@ -176,16 +176,48 @@ try:
 except ValueError as e:
     st.error(f"Error parsing date: {e}")
 
-
+filtered_posts = posts
 
 # Display posts if available
 if posts:
-    for post in posts:
+
+    post_types = list(set(post.get("Category") for post in posts))
+    dates = ['Today', 'Last 7 Days', 'Last 30 Days']
+    # top = ['Top 10', 'Top 15', 'Top 25','Top 50']
+
+    with st.expander('Filter posts by type, how recent, likes'):
+        filtered_type = st.multiselect("Filter by post type", post_types, default=[])
+        filter_date = st.multiselect("Filter by date posted", dates, default=[])
+        if filter_date == 'Today':
+            filter_date = date.today()
+        elif filter_date == 'Last 7 Days':
+            filter_date = date.today() - timedelta(7)
+        else:
+            filter_date = date.today() - timedelta(30)
+
+        # filter_top = st.text_input('filter by number of posts by likes')
+    
+    if filtered_type:
+            filtered_posts = [post for post in filtered_posts if post.get("Category") in filtered_type]
+
+    if filter_date:
+            filtered_posts = [post for post in filtered_posts if datetime.strptime(post.get("PostDate"), "%a, %d %b %Y %H:%M:%S %Z").date() <= filter_date]
+
+    # if filter_top:
+    #     try:
+    #         filter_top = int(filter_top)
+    #         filtered_posts = sorted(filtered_posts, key=lambda x: x["Likes"], reverse=True)[:filter_top]
+    #     except ValueError as e:
+    #         st.error(f"Invalid number of posts: {e}")
+    
+
+    for post in filtered_posts:
         post_id = post.get("PostId")
         student_name = post.get("Name")
         content = post.get("Content")
         post_date = post.get("PostDate")
         category = post.get("Category")
+        # likes = post.get("Likes")
             
         # Wrap everything inside the post container
         with st.container():
