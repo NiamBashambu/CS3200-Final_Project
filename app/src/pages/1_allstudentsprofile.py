@@ -88,17 +88,22 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
         majors = list(set(student.get("Major") for student in students))
         statuses = ['Employed', 'Searching', 'Not Searching']
 
-        filter_major = st.selectbox("Filter by Major", ["All Majors"] + majors)
-        filter_status = st.selectbox("Filter by Employment Status", ["All Statuses"] + statuses)
-
+        with st.expander('Filter students by major and status'):
+            filter_major = st.multiselect("Filter by Major", majors, default=[])
+            filter_status = st.multiselect("Filter by Employment Status", statuses, default=[])
+    
+        
         # initialize filtering, return all students if no filtering
         filtered_students = students
         
-        if filter_major != "All Majors":
-            filtered_students = [student for student in filtered_students if student.get("Major") == filter_major]
+        if filter_major:
+            filtered_students = [student for student in filtered_students if student.get("Major") in filter_major]
+
+        if filter_status:
+            filtered_students = [student for student in filtered_students if student.get("EmployStatus") in filter_status]  
+
         
-        if filter_status != "All Statuses":
-            filtered_students = [student for student in filtered_students if student.get("EmployStatus") == filter_status]  
+
 
         # Create a list to hold student data for the DataFrame
         student_data = []
