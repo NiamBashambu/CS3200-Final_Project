@@ -111,4 +111,17 @@ def create_resume(studentId):
         return jsonify({"error": error_message}), 500
 
 
+# ------------------------------------------------------------
+# Delete a student's resume
+@resume.route('/resume/<int:resumeId>', methods=['DELETE'])
+def delete_resume(resumeId):
+    query = f'''
+        DELETE FROM Resume WHERE ResumeId = {resumeId}
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
     
+    response = make_response("Resume deleted successfully")
+    response.status_code = 200
+    return response

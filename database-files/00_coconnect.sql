@@ -50,6 +50,8 @@ CREATE TABLE StudentSearching (
     EmployStatus VARCHAR(20),
     FOREIGN KEY (StudentId) REFERENCES Student(StudentId),
     FOREIGN KEY (ResumeId) REFERENCES Resume(ResumeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 -- Create the Student Exploring Fields table

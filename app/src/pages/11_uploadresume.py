@@ -192,7 +192,7 @@ if resume is not None:
     resume_id = resume.get('ResumeId')
     content = resume.get("Content")
     lastupdated = datetime.strptime(resume.get("LastUpdated"), "%a, %d %b %Y %H:%M:%S %Z").date()
-    
+
     st.markdown(
             f"""
             <div style="background-color: #ffffff; border-radius: 15px; padding: 25px; margin-bottom: 30px;
@@ -211,6 +211,19 @@ if resume is not None:
             """,
             unsafe_allow_html=True,
         )
+    
+    # Create a button to delete resumes
+    if st.button('Delete Current Resume'):
+        try:
+            response = requests.delete(f'{BASE_URL}/{resume_id}')
+            if response.status_code == 200:
+                st.write('Resume successfully deleted.')
+
+            else:
+                st.error(f"Failed to delete resume: {response.status_code}, {response.text}")
+
+        except Exception as e:
+            st.error(f"Error updating resume: {e}")
 
 
 # Add a button to upload/update resume
