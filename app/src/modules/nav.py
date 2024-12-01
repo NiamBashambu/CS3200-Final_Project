@@ -51,7 +51,7 @@ def SideBarLinks(show_home=True):
             )
             st.sidebar.page_link(
                 "pages/10_employerprofile.py", label="Profile", icon="👤"
-            )
+            ) 
             
 
         # If the user role is usaid worker, show the Api Testing page
