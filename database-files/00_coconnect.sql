@@ -679,7 +679,17 @@ INSERT INTO Employer (Name, Email, Phone, CompanyId) VALUES
 ('Lily Johnson', 'lily.johnson@techsolutionsgroup.com', '+18175594578', 48),
 ('Wyatt Wilson', 'wyatt.wilson@airobotics.com', '+12175595389', 49),
 ('Mason Taylor', 'mason.taylor@dataforge.com', '+14175596290', 50),
-('John Doe', 'doe.john@dataforge.com', '+14175496290', 51);
+('John Doe', 'doe.john@dataforge.com', '+14175496290', 51),
+('Eleanor Smith', 'eleanor.smith@futurelab.com', '+14175597291', 52),
+('Henry Johnson', 'henry.johnson@smartsolutions.com', '+16175598292', 53),
+('Lillian Brown', 'lillian.brown@techwave.com', '+18175599293', 54),
+('Sophia Moore', 'sophia.moore@datasolutions.com', '+12175600294', 55),
+('Benjamin Scott', 'benjamin.scott@roboticsinnovators.com', '+14175601295', 56),
+('Isabella Davis', 'isabella.davis@healthtech.com', '+16175602296', 57),
+('Oliver Martinez', 'oliver.martinez@blockchaincreators.com', '+18175603297', 58),
+('Emily Walker', 'emily.walker@cloudgen.com', '+12175604298', 59),
+('Jacob Wilson', 'jacob.wilson@secureventures.com', '+14175605299', 60),
+('Charlotte Allen', 'charlotte.allen@aitechnology.com', '+16175606200', 61);
 
 INSERT INTO CompanyJobs (CompanyId, CompanyName) VALUES
 (1, 'TechCorp'),
