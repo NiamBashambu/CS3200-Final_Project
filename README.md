@@ -1,5 +1,7 @@
 # CO CONNECT
-Co-Connect bridges the gap between students, employers, and co-op advisor, offering a platform specifically tailored for Northeastern University's co-op opportunities. 
+
+## Overview
+Traditional platforms like NUWorks and Glassdoor fail to capture the complex aspects of co-op roles, such as workload variability, realistic responsibilities, and the work environment. Co-Connect provides a data-driven, intuitive solution designed to offer a deeper understanding of co-op experiences while streamlining the connection between students, employers, and advisors.
 
 ## Features
 - Post Feed: Students can share co-op experiences and insights to better understand different industries. 
