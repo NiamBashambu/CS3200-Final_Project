@@ -192,7 +192,7 @@ if st.session_state["show_job_form"]:
     with st.form(key="create_job", clear_on_submit=True):
         company_id = st.text_input("Company Id", placeholder="Enter the company Id")
         job_id = st.text_input("Job ID",placeholder="Enter the job id")
-        position = st.text_input("Position", placeholder="Enter the job tipositiontle")
+        position = st.text_input("Position", placeholder="Enter the job position")
         department = st.text_input("Department", placeholder = "Enter the department")
         description = st.text_area("Job Description", placeholder="Enter a detailed job description")
         location = st.text_input("Location", placeholder="Enter the job location")
