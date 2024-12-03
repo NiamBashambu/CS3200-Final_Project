@@ -44,6 +44,9 @@ def SideBarLinks(show_home=True):
                 "pages/3_joblistings.py", label="Job Listing", icon="📚"
             )
             st.sidebar.page_link(
+                "pages/12_updatejoblistings.py", label="Update Job Listings", icon="👔"
+            ) 
+            st.sidebar.page_link(
                 "pages/5_viewpost.py", label="Posts", icon="📧"
             )
             st.sidebar.page_link(
@@ -55,6 +58,7 @@ def SideBarLinks(show_home=True):
             st.sidebar.page_link(
                 "pages/10_employerprofile.py", label="Profile", icon="👤"
             ) 
+            
             
 
         # If the user role is usaid worker, show the Api Testing page
