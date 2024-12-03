@@ -54,7 +54,7 @@ if st.button("Act as John Doe, an Employer for a company",
     st.session_state['employer_id'] = 51
     # finally, we ask streamlit to switch to another page, in this case, the 
     # landing page for this particular user type
-    st.switch_page('pages/10_employerprofile.py')
+    st.switch_page('pages/13_employerhome.py')
 
 if st.button('Act as Olivia Garcia, a student searching for a COOP', 
             type = 'primary', 
@@ -63,7 +63,7 @@ if st.button('Act as Olivia Garcia, a student searching for a COOP',
     st.session_state['role'] = 'student_searching'
     st.session_state['name'] = 'Olivia Garcia'
     st.session_state['student_id'] = 51
-    st.switch_page('pages/2_studentprofile.py')
+    st.switch_page('pages/14_studentshome.py')
 
 if st.button('Act as Will Jones, a student exploring different fields', 
             type = 'primary', 
@@ -72,14 +72,14 @@ if st.button('Act as Will Jones, a student exploring different fields',
     st.session_state['role'] = 'student_exploring'
     st.session_state['name'] = 'Will Jones'
     st.session_state['student_id'] = 52
-    st.switch_page('pages/8_exploringstudent.py')
+    st.switch_page('pages/15_studentehome.py')
 
 if st.button('Act as Mary Smith, a COOP advisor ',type = 'primary',use_container_width=True):
         st.session_state['authenticated'] = True
         st.session_state['role']  = 'advisor'
         st.session_state['name'] = 'Mary'
         st.session_state['advisor_id'] = 47
-        st.switch_page('pages/6_advisorprofile.py')
+        st.switch_page('pages/16_coopadvisor.py')
 
 
 
