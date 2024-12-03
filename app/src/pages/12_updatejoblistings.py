@@ -126,7 +126,7 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
                         {description}
                     </div>
                     <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
-                        Posted on {post_date} | <a href="{application_link}" target="_blank">Apply Here</a>
+                        Posted on {post_date}
                     </div>
                 </div>
                 """,
