@@ -92,13 +92,11 @@ def create_post():
 
 # ------------------------------------------------------------
 # Delete a jobListing by JobId
-@jobListing.route('/JobListing/<int:JobId>', methods=['DELETE'])
-def delete_jobListing(jobId):
-    query = f'''
-        DELETE FROM JobListing WHERE JobId = {jobId}
-    '''
+@jobListing.route('/jobListing/<int:JobId>', methods=['DELETE'])
+def delete_jobListing(JobId):
+    query = "DELETE FROM JobListing WHERE JobId = %s"
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (JobId,))
     db.get_db().commit()
     
     response = make_response("Job listing deleted successfully")

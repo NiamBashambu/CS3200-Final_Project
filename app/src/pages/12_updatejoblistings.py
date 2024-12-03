@@ -136,9 +136,6 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
                 # Attempts to delete the job listing above
                 if st.button("Delete"):
                     try:
-                        st.write(f"Attempting to delete job with ID: {job_id}")
-                        st.write(f"Attempting to delete with company: {company_name}")
-                        st.write(f'{JL_BASE_URL}/{job_id}')
                         response = requests.delete(f'{JL_BASE_URL}/{job_id}')
            
                         if response.status_code == 200:
