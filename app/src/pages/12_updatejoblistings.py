@@ -107,6 +107,7 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
             application_link = job.get("ApplicationLink")
             department = job.get("Department")
 
+            # Adding the job listings as well as a delete button under each one
             with st.container():
 
                 st.markdown(
@@ -129,6 +130,7 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
                 unsafe_allow_html=True,
                 )
 
+                # Attempts to delete the job listing above
                 if st.button("Delete"):
                     try:
                         st.write(f"Attempting to delete job with ID: {job_id}")
