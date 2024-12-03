@@ -96,6 +96,9 @@ if "authenticated" in st.session_state and st.session_state["authenticated"]:
 
         filtered_jobs =  [job for job in jobs if job.get("CompanyId") == company_id]
 
+        if not filtered_jobs:
+            st.write("No job listings from your company have been posted")
+
 
         for job in filtered_jobs:
             job_id = job.get("JobId")
