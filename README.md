@@ -1,5 +1,5 @@
 # CO CONNECT
-
+Video Link: https://youtu.be/pmqqMBUM52I 
 ## Overview
 Traditional platforms like NUWorks and Glassdoor fail to capture the complex aspects of co-op roles, such as workload variability, realistic responsibilities, and the work environment. Co-Connect provides a data-driven, intuitive solution designed to offer a deeper understanding of co-op experiences while streamlining the connection between students, employers, and advisors.
 
